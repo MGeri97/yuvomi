@@ -23,6 +23,7 @@ const LOCALE_LABELS = {
   hi: 'हिन्दी',
   pt: 'Português',
   uk: 'Українська',
+  pl: 'Polski',
 };
 
 class OikosLocalePicker extends HTMLElement {

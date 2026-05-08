@@ -67,7 +67,7 @@ The goal is a single, private place for everything that keeps a household runnin
 - **PWA** — installable on any device, works offline, dark mode, responsive from phone to desktop
 - **Privacy First** — SQLCipher AES-256 encrypted database, fully self-hosted, zero telemetry
 - **Zero Build Step** — pure ES modules, no bundler, no transpiler, no framework
-- **Multilingual** — 15 languages with automatic locale detection (de, en, es, fr, it, sv, el, ru, tr, zh, ja, ar, hi, pt, uk)
+- **Multilingual** — 16 languages with automatic locale detection (de, en, es, fr, it, sv, el, ru, tr, zh, ja, ar, hi, pt, uk, pl)
 
 ## Quick Start
 

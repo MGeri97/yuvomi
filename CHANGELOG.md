@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.50.0] - 2026-05-08
+
+### Added
+- **Polish locale**: full Polish (`pl`) translation added, covering all UI strings across all modules (tasks, calendar, shopping, meals, budget, notes, contacts, birthdays, recipes, documents, housekeeping, settings, and more). Polish is now selectable in Settings → Language.
+
 ## [0.49.0] - 2026-05-08
 
 ### Added
