@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.52.1] - 2026-05-12
+
+### Changed
+- Bump `express-rate-limit` from 8.5.0 to 8.5.1
+- Bump `tsdav` from 2.2.0 to 2.2.1 (fixes CalDAV compatibility with servers that omit `supported-calendar-component-set`)
+- Bump `puppeteer` from 24.42.0 to 24.43.1
+
 ## [0.52.0] - 2026-05-11
 
 ### Added
