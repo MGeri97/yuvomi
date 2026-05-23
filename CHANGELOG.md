@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.52.34] - 2026-05-23
+
+### Fixed
+- Dashboard blank-screen on scroll — actual dashboard-specific trigger identified. Each `.dashboard .widget::after` carried a `linear-gradient(135deg, color-mix(...), transparent 70%)` as a full-cover tint overlay (`glass.css` section 25). With many widgets stacked in the dashboard grid, each scrolling instance applied the gradient + `color-mix()` pattern repeatedly across the scroll viewport, reproducing the same WebKit/Blink scroll-rasterization failure that v0.52.32 fixed for `.app-content`. No other module page has a comparable per-card gradient overlay pseudo-element, which is why only the dashboard remained broken after v0.52.32/v0.52.33. Replaced the gradient with a flat translucent `color-mix()` background (half the original tint strength) so the module-accent vibrancy is preserved without a gradient. The pre-existing `@media (prefers-reduced-transparency: reduce) { .dashboard .widget::after { display: none } }` rule was a strong hint at the same conclusion.
+
 ## [0.52.33] - 2026-05-23
 
 ### Fixed

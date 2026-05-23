@@ -539,16 +539,21 @@ html.navigating .app-content *::after {
     background-color: var(--glass-bg-card-hover);
   }
 
-  /* Modul-Tint: subtiler Farbverlauf durch Akzentfarbe */
+  /* Modul-Tint: flacher transparenter Tint durch Akzentfarbe.
+   * Früher: linear-gradient(135deg, color-mix(...), transparent 70%) — Gradient mit
+   * color-mix()-Stops auf vielen scrollenden Widgets gleichzeitig löste den Blank-
+   * Screen-Bug (Issue #166) ausschließlich im Dashboard aus, da andere Seiten
+   * kein vergleichbares Overlay-Pseudo haben. Flache color-mix-Farbe ist im
+   * Repaint unproblematisch. */
   .dashboard .widget::after {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: inherit;
-    background: linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--module-accent, var(--color-accent)) var(--glass-tint-strength), transparent),
-      transparent 70%
+    background-color: color-mix(
+      in srgb,
+      var(--module-accent, var(--color-accent)) calc(var(--glass-tint-strength) / 2),
+      transparent
     );
     pointer-events: none;
     z-index: 0;
