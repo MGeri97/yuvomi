@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- Blank screen on scroll — disabled `filter` effects inside the `.app-content` scroll container to prevent mobile WebKit/Blink from promoting calendar/event elements into compositor layers during scroll, which can still trigger the empty-screen regression.
+
 ## [0.52.36] - 2026-05-23
 
 ### Fixed
