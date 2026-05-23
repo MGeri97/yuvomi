@@ -1606,7 +1606,6 @@
   inset: auto;
   z-index: -1;
   pointer-events: none;
-  filter: blur(28px);
   opacity: 0.55;
 }
 

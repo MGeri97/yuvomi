@@ -413,18 +413,19 @@ textarea.form-input {
 }
 
 /* Blank-Screen-on-Scroll Prevention (iOS 26+ WebKit + Android Blink):
- * Jedes Element mit backdrop-filter innerhalb von overflow:auto wird vom Browser
- * als eigenständige Compositor-GPU-Layer gerendert. Bei vielen solchen Layern
- * (Task-Cards, Note-Items, Widgets, Inputs) scheitert der Compositor auf mobilen
- * Geräten beim Scrollen → kompletter Weißbild-/Leerbild-Fehler.
+ * Jedes Element mit backdrop-filter ODER filter innerhalb von overflow:auto wird
+ * vom Browser als eigenständige Compositor-GPU-Layer gerendert. Bei vielen solchen
+ * Layern (Task-Cards, Note-Items, Widgets, Inputs, Calendar-Events) scheitert der
+ * Compositor auf mobilen Geräten beim Scrollen → kompletter Weißbild-/Leerbild-Fehler.
  * Elemente AUSSERHALB von .app-content (nav-bottom, Modals, Toasts) behalten
- * ihren backdrop-filter-Blur unverändert — nur der Scroll-Container ist betroffen.
+ * ihren Blur unverändert — nur der Scroll-Container ist betroffen.
  * Referenz: Issue #166 (iOS), nachgemeldet auch auf Android. */
 .app-content *,
 .app-content *::before,
 .app-content *::after {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  filter: none !important;
 }
 
 /* Performance: backdrop-filter deaktivieren während Seitenübergängen.

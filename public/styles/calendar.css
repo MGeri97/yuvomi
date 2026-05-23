@@ -229,7 +229,6 @@
   cursor: pointer;
   color: var(--color-text-on-accent);
   line-height: 1.6;
-  filter: saturate(0.4);
 }
 
 .month-day__event span,
@@ -401,12 +400,11 @@
   cursor: pointer;
   z-index: 1;
   line-height: 1.4;
-  filter: saturate(0.4);
-  transition: filter var(--transition-fast);
+  transition: opacity var(--transition-fast);
 }
 
 .week-event:hover {
-  filter: saturate(0.4) brightness(0.9);
+  opacity: 0.85;
 }
 
 .week-event__title {
@@ -614,7 +612,7 @@
   width: 3px;
   border-radius: var(--radius-full);
   flex-shrink: 0;
-  filter: saturate(0.4);
+  opacity: 0.65;
 }
 
 .agenda-event__body {
@@ -860,7 +858,7 @@
   height: 4px;
   border-radius: var(--radius-full);
   margin-bottom: var(--space-3);
-  filter: saturate(0.4);
+  opacity: 0.65;
 }
 
 .event-popup__title {
@@ -938,7 +936,6 @@
   text-overflow: ellipsis;
   margin-bottom: var(--space-0h);
   cursor: pointer;
-  filter: saturate(0.4);
 }
 
 @media (max-width: 640px) {
@@ -966,5 +963,5 @@
   border-radius: var(--radius-full);
   background: var(--cal-color, currentColor);
   flex-shrink: 0;
-  filter: saturate(0.4);
+  opacity: 0.65;
 }
