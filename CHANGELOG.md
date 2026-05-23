@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.52.22] - 2026-05-23
+
+### Added
+- `.gitattributes` added to enforce LF line endings for shell scripts and normalize all text files, preventing shebang breakage in Linux containers when the repo is cloned on Windows
+
 ## [0.52.21] - 2026-05-21
 
 ### Added
