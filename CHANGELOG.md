@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.52.49] - 2026-05-24
+
+### Changed
+- Dashboard stat icons (tasks, shopping, notes, budget) now render in their respective module accent colors instead of the generic dashboard color.
+- Today-overview cockpit cards carry a subtle accent-tinted background and border in their default (non-hover) state; hover state intensity increased for clearer affordance.
+- Cockpit card metric values are now rendered in the card's accent color for stronger visual hierarchy.
+- Icon wells (cockpit card icons and "More" navigation sheet items) now blend against `--color-surface-elevated` instead of transparent, and gain an inset specular highlight for a raised, glassy appearance.
+- Login page ambient background gains a third radial gradient blob and stronger top-glow opacity for more atmospheric depth.
+
 ## [0.52.48] - 2026-05-24
 
 ### Changed
