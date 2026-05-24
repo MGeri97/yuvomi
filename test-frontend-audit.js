@@ -8,6 +8,17 @@ import { readFileSync } from 'node:fs';
 
 const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
 
+function cssRuleBody(css, selector) {
+  const escaped = selector.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = css.match(new RegExp(`${escaped}\\s*\\{([^}]*)\\}`, 'm'));
+  return match?.[1] ?? '';
+}
+
+function assertRuleUsesToken(css, selector, property, token, file) {
+  const body = cssRuleBody(css, selector);
+  assert.match(body, new RegExp(`${property}:\\s*var\\(${token}\\)`), `${file} ${selector} ${property} should use ${token}`);
+}
+
 test('audited frontend files do not assign innerHTML', () => {
   const files = [
     './public/components/oikos-install-prompt.js',
@@ -54,6 +65,16 @@ test('router hides inactive overlays from keyboard focus', () => {
   assert.match(source, /returnFocus/);
 });
 
+test('bottom navigation labels are constrained against localized overflow', () => {
+  const layout = read('./public/styles/layout.css');
+  const labelRule = cssRuleBody(layout, '.nav-item__label');
+
+  assert.match(labelRule, /max-width:\s*100%/);
+  assert.match(labelRule, /overflow:\s*hidden/);
+  assert.match(labelRule, /text-overflow:\s*ellipsis/);
+  assert.match(labelRule, /white-space:\s*nowrap/);
+});
+
 test('phase 3 high-frequency controls use tokenized touch targets', () => {
   const tasks = read('./public/styles/tasks.css');
   const shopping = read('./public/styles/shopping.css');
@@ -64,6 +85,42 @@ test('phase 3 high-frequency controls use tokenized touch targets', () => {
   assert.match(shopping, /\.shopping-item[\s\S]*min-height:\s*var\(--target-base\)/);
   assert.match(notes, /\.note-card__pin[\s\S]*width:\s*var\(--target-base\)/);
   assert.match(notes, /\.note-card__delete[\s\S]*width:\s*var\(--target-base\)/);
+});
+
+test('phase 6 touched UI files continue using design tokens for target sizes', () => {
+  const tasks = read('./public/styles/tasks.css');
+  const shopping = read('./public/styles/shopping.css');
+  const notes = read('./public/styles/notes.css');
+  const contacts = read('./public/styles/contacts.css');
+  const targetRules = [
+    ['./public/styles/tasks.css', tasks, '.task-status-btn'],
+    ['./public/styles/shopping.css', shopping, '.quick-add__btn'],
+    ['./public/styles/shopping.css', shopping, '.item-check'],
+    ['./public/styles/notes.css', notes, '.note-card__pin'],
+    ['./public/styles/notes.css', notes, '.note-card__delete'],
+    ['./public/styles/contacts.css', contacts, '.contact-action-btn'],
+  ];
+
+  for (const [file, source, selector] of targetRules) {
+    const body = cssRuleBody(source, selector);
+    assert.doesNotMatch(
+      body,
+      /\b(?:min-)?(?:height|width):\s*(?:[1-9]|[1-3]\d|4[0-3])px\b/,
+      `${file} ${selector} should not use sub-44px hardcoded target sizes`
+    );
+  }
+
+  for (const property of ['width', 'height']) {
+    assertRuleUsesToken(tasks, '.task-status-btn', property, '--target-base', './public/styles/tasks.css');
+    assertRuleUsesToken(shopping, '.quick-add__btn', property, '--target-base', './public/styles/shopping.css');
+    assertRuleUsesToken(shopping, '.item-check', property, '--target-base', './public/styles/shopping.css');
+    assertRuleUsesToken(notes, '.note-card__pin', property, '--target-base', './public/styles/notes.css');
+    assertRuleUsesToken(notes, '.note-card__delete', property, '--target-base', './public/styles/notes.css');
+    assertRuleUsesToken(contacts, '.contact-action-btn', property, '--target-lg', './public/styles/contacts.css');
+  }
+
+  assertRuleUsesToken(contacts, '.contact-action-btn', 'min-height', '--target-lg', './public/styles/contacts.css');
+  assertRuleUsesToken(contacts, '.contact-action-btn', 'min-width', '--target-lg', './public/styles/contacts.css');
 });
 
 test('phase 4 keeps Kitchen navigation identity stable', () => {

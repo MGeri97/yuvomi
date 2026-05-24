@@ -531,6 +531,10 @@
   font-size: var(--text-xs);
   font-weight: var(--font-weight-medium);
   line-height: 1;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* --------------------------------------------------------

@@ -419,3 +419,34 @@ Diese Aspekte sind gut umgesetzt und sollten nicht verändert werden:
 9. **M1–M7** — Nach Belieben
 10. **H2** — Kitchen-Button-UX (komplex, zuletzt)
 11. **N1–N6** — Abschluss-Polish
+
+---
+
+## 2026-05-24 UX/UI Improvement Implementation
+
+Implemented:
+- Today cockpit dashboard.
+- Mobile-first calendar and meals improvements.
+- Larger touch targets for tasks, shopping, notes, and contacts.
+- Stable Kitchen navigation model.
+- Better empty states and localized category labels.
+- Phase 6 regression guards for tokenized touch targets and localized bottom-nav label overflow.
+
+Verification:
+- `npm run test:frontend-audit` passed.
+- `npm run test:mobile-scroll-layout` passed.
+- `npm run test:modal-utils` passed.
+- `npm run test:kitchen-tabs` passed.
+- `npm run test:dashboard` passed.
+- `npm run test:tasks` passed.
+- `npm run test:shopping` passed.
+- `npm run test:calendar` passed.
+- `npm run test:meals` passed.
+- `npm run test:ncb` passed.
+- `npm test` passed.
+
+Manual viewport checks:
+- Seeded demo data in `/tmp/oikos-ui-audit.db` and ran `SESSION_SECRET=dev SESSION_SECURE=false DB_PATH=/tmp/oikos-ui-audit.db PORT=3123 npm run dev`.
+- Checked `/`, `/tasks`, `/calendar`, `/meals`, `/shopping`, `/notes`, `/contacts`, `/budget`, `/documents`, `/housekeeping`, and `/settings` at 390x844 and 1280x720.
+- Confirmed no horizontal overflow and no destructive text overflow after constraining localized bottom-nav labels.
+- Confirmed the mobile More sheet opens from the bottom navigation and Escape closes it with focus returning to the More button.
