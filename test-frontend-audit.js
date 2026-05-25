@@ -123,6 +123,19 @@ test('bottom navigation labels are constrained against localized overflow', () =
   assert.match(labelRule, /white-space:\s*nowrap/);
 });
 
+test('mobile bottom navigation avoids clipped Android labels and sparse icon spacing', () => {
+  const layout = read('./public/styles/layout.css');
+  const navItemRule = cssRuleBody(layout, '.nav-bottom .nav-item');
+  const iconWellRule = cssRuleBody(layout, '.nav-bottom .nav-item__icon-well');
+  const labelRule = cssRuleBody(layout, '.nav-bottom .nav-item__label');
+
+  assert.match(navItemRule, /padding-block:\s*var\(--space-0h\)/);
+  assert.match(iconWellRule, /width:\s*var\(--target-base\)/);
+  assert.match(iconWellRule, /height:\s*var\(--target-sm\)/);
+  assert.match(iconWellRule, /border-radius:\s*var\(--radius-full\)/);
+  assert.match(labelRule, /line-height:\s*1\.2/);
+});
+
 test('phase 3 high-frequency controls use tokenized touch targets', () => {
   const tasks = read('./public/styles/tasks.css');
   const shopping = read('./public/styles/shopping.css');

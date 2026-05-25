@@ -158,7 +158,7 @@
 /* --------------------------------------------------------
  * Bottom Navigation (Mobil + Tablet)
  *
- * Kompakte Bar: 56px Höhe, Icons 22px, Labels 11px.
+ * Kompakte Bar mit pillenförmigen Icon-Wells und lesbaren Labels.
  * Leichter Blur-Effekt für Glassmorphismus.
  * -------------------------------------------------------- */
 .nav-bottom {
@@ -517,6 +517,10 @@
   position: relative;
 }
 
+.nav-bottom .nav-item {
+  padding-block: var(--space-0h);
+}
+
 .nav-item__icon-wrap {
   position: relative;
   display: inline-flex;
@@ -567,8 +571,9 @@
 }
 
 .nav-bottom .nav-item__icon-well {
-  width: 36px;
-  height: 36px;
+  width: var(--target-base);
+  height: var(--target-sm);
+  border-radius: var(--radius-full);
 }
 
 .nav-sidebar .nav-item__icon-well {
@@ -605,6 +610,10 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.nav-bottom .nav-item__label {
+  line-height: 1.2;
 }
 
 /* --------------------------------------------------------
