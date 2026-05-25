@@ -968,7 +968,7 @@ function initMoreSheet(container, openSearch) {
     sheet.addEventListener('keydown', moreSheetTrap);
     backdrop.classList.add('more-backdrop--visible');
     moreBtn.setAttribute('aria-expanded', 'true');
-    setTimeout(() => sheet.querySelector('#more-sheet-search, [data-route]')?.focus(), 0);
+    sheet.querySelector('#more-sheet-search, [data-route]')?.focus();
     if (window.lucide) window.lucide.createIcons();
   }
 
