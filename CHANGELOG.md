@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.54.0] - 2026-05-28
+
+### Added
+- **Liquid Glass Navigation:** Sidebar and mobile bottom bar now feature a sliding glass pill indicator that animates to the active entry.
+- **Custom nav icons:** `public/nav-icons.js` provides a full set of monoline SVG icons for all navigation entries, built entirely with the DOM API (`createElementNS`) — no `innerHTML`.
+- **Desktop hover preview:** Hovering an inactive sidebar entry shows the destination indicator at 50 % opacity before navigation.
+- **Household section label:** A "Haushalt" section heading appears between the four primary entries (Dashboard, Calendar, Tasks, Notes) and the module entries in the sidebar.
+- **Locale key `nav.section.household`:** Added to all 16 supported locale files.
+- **Accessibility:** Navigation animations are suppressed when `prefers-reduced-motion` is active; glass effects are disabled when `prefers-reduced-transparency` is active.
+- Lucide icon fallback for any navigation entry that lacks a custom SVG.
+
 ## [0.53.1] - 2026-05-28
 
 ### Removed
