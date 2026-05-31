@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.55.7] - 2026-05-31
+
+### Fixed
+- **Mobile dashboard readability improved:** Prevented first-viewport dashboard highlights from splitting German words mid-word, widened mobile cockpit cards, reserved space for the fixed FAB, and kept compact quick actions accessible.
+
 ## [0.55.6] - 2026-05-30
 
 ### Changed

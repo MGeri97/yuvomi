@@ -348,6 +348,60 @@ test('phase 1 app backdrop uses subtle tokenized tint and opaque scroll content'
   assert.doesNotMatch(layoutContentRule, /radial-gradient/, 'layout.css should not put decorative radial gradients on the scroll container');
 });
 
+test('phase 2 dashboard primary titles do not split words mid-token', () => {
+  const dashboard = read('./public/styles/dashboard.css');
+  const selectors = [
+    '.dashboard-overview__title',
+    '.today-cockpit-card__value',
+  ];
+
+  for (const selector of selectors) {
+    const body = cssRuleBody(dashboard, selector);
+    assert.match(body, /overflow-wrap:\s*normal/, `${selector} should prefer natural word wrapping`);
+    assert.match(body, /word-break:\s*normal/, `${selector} should not break German words mid-token`);
+    assert.doesNotMatch(body, /overflow-wrap:\s*anywhere/, `${selector} must not use anywhere wrapping`);
+  }
+});
+
+test('phase 2 mobile dashboard cockpit uses wider important cards with tokenized stable sizing', () => {
+  const dashboard = read('./public/styles/dashboard.css');
+
+  assert.match(
+    dashboard,
+    /@media \(max-width:\s*520px\)[\s\S]*\.today-cockpit-card\s*\{[\s\S]*min-height:\s*calc\(var\(--target-lg\)\s*\+\s*var\(--space-4\)\)/,
+    'mobile cockpit cards should keep stable tokenized min-height'
+  );
+  assert.match(
+    dashboard,
+    /@media \(max-width:\s*520px\)[\s\S]*\.today-cockpit-card--task,\s*\n\s*\.today-cockpit-card--event\s*\{[\s\S]*grid-column:\s*1\s*\/\s*-1/,
+    'task and event cards should span the mobile cockpit grid for wider text'
+  );
+  assert.match(
+    dashboard,
+    /@media \(max-width:\s*520px\)[\s\S]*\.dashboard-action\s*\{[\s\S]*width:\s*var\(--target-base\)[\s\S]*height:\s*var\(--target-base\)/,
+    'mobile quick actions should keep tokenized icon-button dimensions'
+  );
+});
+
+test('phase 2 dashboard FAB uses tokenized position and reserved mobile scroll room', () => {
+  const dashboard = read('./public/styles/dashboard.css');
+  const fabRule = cssRuleBody(dashboard, '.fab-container');
+
+  assert.match(fabRule, /bottom:\s*calc\(var\(--nav-bottom-height\)\s*\+\s*var\(--space-6\)\)/);
+  assert.doesNotMatch(fabRule, /\b24px\b/, 'FAB position should use spacing tokens');
+  assert.match(
+    dashboard,
+    /@media \(max-width:\s*520px\)[\s\S]*\.dashboard-shell\s*\{[\s\S]*padding-bottom:\s*calc\(var\(--target-lg\)\s*\+\s*var\(--space-8\)\)/,
+    'mobile dashboard should reserve scroll room for the fixed FAB'
+  );
+});
+
+test('phase 2 mobile dashboard quick actions keep accessible names when labels are visually compact', () => {
+  const dashboardPage = read('./public/pages/dashboard.js');
+
+  assert.match(dashboardPage, /class="dashboard-action \$\{tone \? `dashboard-action--\$\{tone\}` : ''\}" data-route="\$\{route\}" aria-label="\$\{esc\(label\)\}"/);
+});
+
 // ============================================================
 // UX-Audit Mai 2026 — P2/P3 (docs/UI-UX-AUDIT-2026-05.md)
 // ============================================================

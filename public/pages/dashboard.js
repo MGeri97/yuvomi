@@ -617,7 +617,7 @@ function renderBudgetWidget(budget, currency) {
 
 function renderQuickAction({ route, label, icon, tone = '' }) {
   return `
-    <button type="button" class="dashboard-action ${tone ? `dashboard-action--${tone}` : ''}" data-route="${route}">
+    <button type="button" class="dashboard-action ${tone ? `dashboard-action--${tone}` : ''}" data-route="${route}" aria-label="${esc(label)}">
       <span class="dashboard-action__icon"><i data-lucide="${icon}" aria-hidden="true"></i></span>
       <span class="dashboard-action__label">${label}</span>
     </button>
