@@ -31,7 +31,7 @@
 
 <br>
 
-Oikos is a self-hosted web app that keeps your household organized — tasks, groceries, meals, calendar, budget, and more — in one private place, without cloud accounts or subscriptions. Runs as a Docker container on any home server or NAS. Accessible on every device. Installable as a PWA.
+Oikos is a self-hosted web app that keeps your household organized — tasks, groceries, meals, calendar, budget, and more — in one private place, without cloud accounts or subscriptions. Runs as a Docker container on any home server or NAS. Accessible on every device with a polished mobile-first PWA interface.
 
 Each module is independent. Use what fits, skip what doesn't.
 
@@ -41,11 +41,11 @@ Each module is independent. Use what fits, skip what doesn't.
 
 | | |
 |---|---|
-| **Tasks** | Shared tasks with deadlines, priorities, subtasks, recurring schedules, and multi-member assignment. |
-| **Shopping** | Collaborative lists organized by aisle. Import from meal plans in one click. |
+| **Tasks** | Shared tasks with deadlines, priorities, subtasks, recurring schedules, multi-member assignment, Kanban, and mobile-friendly bulk controls. |
+| **Shopping** | Collaborative lists organized by aisle. Touch-safe quick add, swipe gestures, and meal-plan import in one click. |
 | **Meals** | Weekly drag-and-drop planner with direct export to your shopping list. |
 | **Recipes** | Create, duplicate, and scale recipes. Pre-fill meal slots or save any meal as a recipe. |
-| **Calendar** | Google Calendar (OAuth) and CalDAV sync (iCloud, Nextcloud, Radicale). ICS subscriptions, recurring events, file attachments. |
+| **Calendar** | Google Calendar (OAuth) and CalDAV sync (iCloud, Nextcloud, Radicale). ICS subscriptions, recurring events, file attachments, and readable month/agenda views. |
 | **Documents** | Upload and organize family files. Folders, tags, per-document visibility, drag-and-drop. |
 | **Budget** | Income, expenses, recurring entries, trends, CSV export. Split Expenses for shared costs with automatic debt simplification. |
 | **Housekeeping** | Manage household staff — schedules, check-in/out, payments, chores, supply requests. |
@@ -60,8 +60,8 @@ Each module is independent. Use what fits, skip what doesn't.
 
 ## Design & Technology
 
-- **Liquid Glass UI** — translucent surfaces, backdrop blur, spring animations, and module-tinted overlays — built in pure CSS
-- **PWA** — installable on any device, works offline, responsive from phone to desktop, dark mode
+- **Disciplined Liquid Glass UI** — readable work surfaces, subtle translucent navigation, spring animations, and module-tinted overlays — built in pure CSS
+- **PWA** — installable on any device, works offline, responsive from phone to desktop, with tuned mobile navigation, touch targets, and dark mode
 - **Privacy First** — fully self-hosted, SQLCipher AES-256 encrypted database, zero telemetry
 - **Zero Build Step** — pure ES modules, no bundler, no transpiler, no framework
 - **Multilingual** — 16 languages with automatic locale detection (de, en, es, fr, it, sv, el, ru, tr, zh, ja, ar, hi, pt, uk, pl)

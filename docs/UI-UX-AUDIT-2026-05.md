@@ -8,6 +8,14 @@ Typografie → Animation → Forms → Navigation → Datenvisualisierung) sowie
 `dashboard.css`, `components/modal.js`, `index.html`, `theme-init.js`, `router.js` (Toast/Route),
 `budget.js` (Datenvis), stichprobenhaft alle `pages/*` und `styles/*`.
 
+**Umsetzungsstatus (2026-06-01):** Die Audit-Ergebnisse wurden in mehreren Releases umgesetzt.
+Die ursprünglichen P1/P2-Sicherheits- und Accessibility-Punkte sind in `v0.54.12` und
+`v0.55.0` geschlossen. Der breitere Frontend-UI/UX-Rollout aus
+`docs/superpowers/plans/2026-05-31-frontend-ui-ux-audit-improvements.md` ist in
+`v0.55.7` bis `v0.55.10` gelandet: stärkere Arbeitsflächen, bessere mobile Dashboard-,
+Tasks- und Shopping-Ergonomie, stabile Kitchen/More-Navigation, lesbarere Kalenderansichten,
+strukturiertere Settings und zusätzliche Regressionstests.
+
 ---
 
 ## 0. Gesamteinschätzung

@@ -302,14 +302,14 @@ Directly after the closing `</header>` tag of the hero section, insert:
     <span class="proof-sep proof-dt-only">·</span>
     <span class="proof-dt-only">MIT licensed</span>
     <span class="proof-sep">·</span>
-    <span>v0.55.3</span>
+    <span>v0.55.10</span>
   </div>
 </div>
 ```
 
 - [ ] **Step 2: Verify proof bar**
 
-Open in browser. A thin bar appears below the hero mockup. On desktop: "★ 2.4k · 14 modules · 16 languages · MIT licensed · v0.55.3" (stars load async). Resize to 375px: only "16 languages · v0.55.3" visible.
+Open in browser. A thin bar appears below the hero mockup. On desktop: "★ 2.4k · 14 modules · 16 languages · MIT licensed · v0.55.10" (stars load async). Resize to 375px: only "16 languages · v0.55.10" visible.
 
 - [ ] **Step 3: Commit**
 
@@ -799,7 +799,7 @@ Find `<footer>` and replace the entire block with:
 ```html
 <footer>
   <div class="wrap">
-    <p class="footer-meta"><span id="gh-stars-footer"></span><span id="footer-sep" style="display:none"> · </span>v0.55.3 · May 2026</p>
+    <p class="footer-meta"><span id="gh-stars-footer"></span><span id="footer-sep" style="display:none"> · </span>v0.55.10 · June 2026</p>
     <p data-t="footer_heart">Built with care for families who value privacy and simplicity.</p>
     <div class="footer-links">
       <a href="install.html" data-t="footer_install">Install</a>
@@ -844,7 +844,7 @@ footer_install: 'Installieren',
 
 - [ ] **Step 4: Verify footer**
 
-Open in browser, scroll to footer. First line shows "★ 2.4k · v0.55.3 · May 2026" (stars async). "Install" link appears as first footer link. Toggle DE: "Install" → "Installieren", "Contributing" → "Mitmachen".
+Open in browser, scroll to footer. First line shows "★ 2.4k · v0.55.10 · June 2026" (stars async). "Install" link appears as first footer link. Toggle DE: "Install" → "Installieren", "Contributing" → "Mitmachen".
 
 - [ ] **Step 5: Commit**
 

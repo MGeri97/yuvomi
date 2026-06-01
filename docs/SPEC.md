@@ -676,6 +676,8 @@ Responsive grid: 1 column on mobile, 2 on tablet, 3 on desktop.
 
 **Today Cockpit (v0.52.40):** a compact summary strip renders above the widget grid that highlights at a glance: the next urgent/high-priority task, the next upcoming calendar event, the open shopping item count, and the planned dinner for today. Tapping any cockpit item navigates directly to the relevant module.
 
+**Mobile readability (v0.55.7):** on narrow phones, important cockpit cards span the full grid width so long German task/event titles do not split mid-word. Quick actions keep tokenized icon-button dimensions, and the dashboard reserves scroll room for the fixed FAB so it does not cover the first widget.
+
 **Widgets:**
 - Greeting: "Good [morning/afternoon/evening], [Name]" + date; auto-refreshes on `visibilitychange` so the greeting stays current during long sessions
 - Weather: OpenWeatherMap proxy, 3-day preview, refresh every 30 min, hide widget on API error
@@ -705,6 +707,7 @@ Skeleton loading instead of spinners (skeleton renders all 9 widgets at their co
 - Inline reminder presets: offset from due date/time — 15 min, 1 h, 1 d, 2 d, 1 w, 2 w, or fully custom offset
 - **Bulk actions (list view only):** select multiple tasks via checkboxes and apply batch operations (mark done, mark open, archive, delete); bulk select toggle in toolbar
 - **Start date:** tasks can have an optional start date; tasks with a future start date are hidden from the default list view to reduce cognitive load. A "Show scheduled" toggle chip in the filter bar reveals all upcoming planned tasks. Task cards display a "Starts on …" badge when a start date is set.
+- **Mobile toolbar (v0.55.8):** secondary controls collapse into a single overflow trigger on small screens; bulk actions remain hidden until at least one task is selected. Checkbox and row actions use the shared 44px target tokens.
 - Mobile swipe: left = done, right = edit
 - Badge for overdue tasks
 
@@ -717,6 +720,7 @@ Skeleton loading instead of spinners (skeleton renders all 9 widgets at their co
 - Checked items shown with strikethrough + moved to bottom
 - "Clear list" = remove checked items only
 - Autocomplete from previous entries (local)
+- Mobile quick-add form uses a resilient grid: item name spans the row, quantity/category/add controls remain touch-safe at 390px width, and autocomplete stays anchored to the input.
 - Mobile swipe: left = check/uncheck, right = delete; × delete button hidden on mobile (swipe takes over)
 
 ### Meal Plan (`/meals`)
@@ -757,6 +761,7 @@ Reusable recipe cards linked to meal slots.
 - **File attachments:** Events support a single file attachment (images, PDFs, Office documents, ≤ 5 MB). Images are displayed inline in the event popup; other files show a download link. Drag-and-drop upload supported in the event modal. Stored as Base64 in `attachment_data`.
 - **Overlapping events:** In week and day views, timed events that overlap in time are rendered side-by-side using a column-layout algorithm instead of stacking.
 - **Task chips:** Open and in-progress tasks with a `due_date` appear as read-only priority-coloured chips in all four calendar views (month, week/day all-day row, agenda). Clicking a chip navigates to `/tasks?open=<id>` and opens the task edit modal. Tasks with `due_time` show the time in the chip label. Done/archived tasks are not shown. No server changes required — tasks are fetched in parallel with events on each range load (`GET /api/v1/tasks?include_future=1`), filtered client-side, and rendered via `renderTaskChip()`.
+- **Readability polish (v0.55.10):** month cells use stronger work surfaces, explicit grid/chip boundaries, and clearer today emphasis. Agenda rows and task chips use solid surfaces plus borders for contrast in both themes. Calendar metadata uses Lucide icon placeholders and shared icon classes instead of visible emoji markers.
 - Configurable sync interval (default 15 min)
 - External events visually distinguishable
 - Conflicts: external event wins, local additions are preserved
@@ -834,7 +839,8 @@ User management and app configuration. Logged-in users only.
 - **Language:** System (follows `navigator.language`), German, English, Spanish, French, Italian, Swedish, Greek, Russian, Turkish, Chinese, Japanese, Arabic, Hindi, Portuguese, Ukrainian, Polish - via `oikos-locale-picker` web component; switch without page reload
 - **API Tokens (admin):** create named Bearer / X-API-Key tokens for external integrations; the full token value is shown only once immediately after creation; tokens can be revoked at any time; support optional expiry and track last-used timestamp
 - **Backup Management (admin):** download the current database as a file (`GET /api/v1/backup/database`) or restore from a backup file (`POST /api/v1/backup/restore`, drag-and-drop supported). Validates that the uploaded file is a valid Oikos database. A rollback copy is created automatically before restore. **Automatic scheduled backups:** configurable via `.env` (`BACKUP_ENABLED`, `BACKUP_SCHEDULE`, `BACKUP_DIR`, `BACKUP_KEEP`); default 2 AM daily, keeps last 7 copies; Settings → Backup shows scheduler status, schedule, retention policy, last backup timestamp, and a manual trigger button.
-- **Tab navigation:** Settings is organized in nine tabs (General, Meals, Budget, Shopping, Synchronization, Family, API Tokens, Backup, Account). Admin-only tabs: Family, API Tokens, Backup. Sticky tab bar, active tab persists in sessionStorage, Synchronization tab auto-activates after OAuth callbacks.
+- **Tab navigation:** Settings is organized in nine tabs (General, Meals, Budget, Shopping, Synchronization, Family, API Tokens, Backup, Account). Admin-only tabs: Family, API Tokens, Backup. Active tab persists in sessionStorage, Synchronization tab auto-activates after OAuth callbacks. On desktop the shared sub-tab bar becomes a sticky local navigation column; on mobile it remains horizontally scrollable with gradient scroll affordances and keyboard-accessible tab behavior.
+- **Information architecture (v0.55.10):** major settings areas use distinct card modifiers for theme, app info, localization/date-time, modules, account, family, API tokens, sync, and backup sections while preserving existing form IDs and API behavior.
 - **Family management (admin):** assign a `family_role` (Dad, Mom, Parent, Child, Grandparent, Relative, Other) to each user, and set per-member phone, email, and birthday — automatically synced to Contacts and Birthdays. Displayed in the family member list and profile views.
 - **Profile picture:** users can upload a personal avatar (PNG/JPEG/WebP/GIF, ≤ 5 MB), stored as a Base64 data URL in `avatar_data`. Displayed alongside display name across the app.
 - **App info:** version, license
@@ -942,7 +948,7 @@ Authentication options for external integrations:
 
 ### Colors (CSS Custom Properties)
 
-Source of truth: `public/styles/tokens.css`. Key values (as of v0.55.2):
+Source of truth: `public/styles/tokens.css`. Key values (as of v0.55.10):
 
 **Palette rationale:** Warm-tinted neutral scale (`#F5F4F1 → #1C1C1A`) anchored by a **Violet primary** (`#6c3aed`) that unifies the brand identity and the Calendar module color. Module colors are semantically separated from severity colors — no hue is shared without explicit documentation in `tokens.css`.
 
@@ -951,6 +957,9 @@ Source of truth: `public/styles/tokens.css`. Key values (as of v0.55.2):
   /* Neutral canvas — warm linen/unbleached-paper atmosphere */
   --color-bg:              #F5F4F1;   /* neutral-100 */
   --color-surface:         #FFFFFF;
+  --color-surface-work:    #FFFFFF;   /* readable productive surfaces */
+  --color-surface-raised:  #FAFAF8;   /* subtle elevated surfaces */
+  --color-surface-glass:   rgba(255,255,255,0.70); /* decorative/light glass */
   --color-border:          #E8E7E2;   /* neutral-200 */
   --color-text-primary:    #1C1C1A;   /* neutral-900, 14.7:1 on bg */
   --color-text-secondary:  #6C6B67;   /* neutral-600, 5.0:1 on white */
@@ -998,6 +1007,7 @@ Source of truth: `public/styles/tokens.css`. Key values (as of v0.55.2):
   /* Glass layer tokens */
   --glass-bg: rgba(255,255,255,0.72);
   --glass-border: rgba(255,255,255,0.55);
+  --glass-bg-card: var(--color-surface-glass);
   --blur-2xs: blur(2px);
   --blur-md: 16px;
   --radius-glass-button: 9999px;       /* capsule */
@@ -1041,7 +1051,10 @@ Source of truth: `public/styles/tokens.css`. Key values (as of v0.55.2):
     --module-reminders: #22D3EE;  /* Cyan-400 */
     --glass-bg: rgba(28,28,26,0.75);
     --glass-border: rgba(255,255,255,0.12);
-    --glass-bg-card: rgba(38,38,36,0.50);
+    --color-surface-work: #242422;
+    --color-surface-raised: #2E2E2B;
+    --color-surface-glass: rgba(34,34,32,0.78);
+    --glass-bg-card: var(--color-surface-glass);
     --glass-tint-strength: 8%;
   }
 }
@@ -1090,6 +1103,12 @@ Additive CSS file loaded globally after `layout.css`. Implements a Liquid Glass 
 - **`--lg-*` design tokens** (`tokens.css`): `--lg-blob-opacity` (0.4 light / 0.55 dark, collapses to 0 under `prefers-reduced-transparency` / `prefers-contrast: more`), `--lg-glass-saturate`, `--lg-card-radius`, `--lg-density`, `--lg-specular`.
 - The drift animation is frozen under `prefers-reduced-motion`; the backdrop is hidden entirely under `prefers-reduced-transparency` / `prefers-contrast: more`.
 
+**Phase 8 — Frontend UI/UX Audit Rollout (v0.55.7–v0.55.10):**
+- **Glass discipline:** `tokens.css` now separates `--color-surface-work`, `--color-surface-raised`, and `--color-surface-glass` so productive pages can use stronger, more readable surfaces while nav, modals, dashboard hero, and lightweight widgets keep decorative glass.
+- **Mobile ergonomics:** dashboard cockpit cards, Tasks secondary controls, Shopping quick-add controls, and Budget row actions use tokenized touch targets and responsive constraints tested at 390px width.
+- **Navigation identity:** Kitchen and More keep stable labels/icons in the mobile bar; the active subsection is exposed through localized accessible labels instead of replacing the visible nav identity.
+- **Calendar and Settings polish:** calendar month/agenda views use explicit readable surfaces and boundaries; Settings uses the shared sub-tab component as desktop sticky local navigation and mobile scrollable tabs.
+
 **Accessibility:** `prefers-reduced-transparency`, `prefers-reduced-motion`, and `prefers-contrast: more` blocks deactivate blur/animation and restore solid fallbacks across all phases.
 
 ### Components
@@ -1098,7 +1117,8 @@ Additive CSS file loaded globally after `layout.css`. Implements a Liquid Glass 
 - **Inputs:** `var(--radius-sm)`, 1.5px border, padding 12px 16px. Search inputs use `--radius-glass-button` and `--glass-border-subtle`. `[required]` fields receive validation status on blur (`.form-field--error` / `.form-field--valid`). Enter in a **single-line field** submits the modal form (standard web convention, v0.55.0); in a multi-line textarea Enter inserts a newline.
 - **FAB (Floating Action Button):** Color follows the module accent token (`--module-accent`) - each module defines its own accent color. Specular inner highlight + attention ring pulse. Hidden when the virtual keyboard is open (`visualViewport.resize`, threshold 75% of window height).
 - **Module accent colors:** `--module-accent` is applied on three visual layers - (1) active nav tab (bottom bar + sidebar stripe), (2) toolbar `border-top: 3px`, (3) cards/rows `border-left: 3px`. The active accent is written to `--active-module-accent` on `:root` on every navigation change. Falls back to `--color-accent` for pages without a module context.
-- **Navigation:** Bottom tab bar on mobile (Dashboard, Calendar, Tasks, Notes + Kitchen button + More button), auto-hides on scroll-down. Sidebar on desktop. Both use glass blur surfaces with a **sliding glass pill indicator** that animates to the active entry using spring easing. Hovering an inactive sidebar entry shows the indicator at 50 % opacity as a destination preview. Custom monoline SVG icons are served from `public/nav-icons.js` (DOM API, no `innerHTML`); Lucide is used as fallback. The sidebar displays a **"Haushalt" section heading** between the four primary entries (Dashboard, Calendar, Tasks, Notes) and the module entries. The Kitchen button dynamically shows the icon and label of the last visited kitchen section (Meals / Recipes / Shopping).
+- **Navigation:** Bottom tab bar on mobile (Dashboard, Calendar, Tasks, Notes + Kitchen button + More button), auto-hides on scroll-down. Sidebar on desktop. Both use glass blur surfaces with a **sliding glass pill indicator** that animates to the active entry using spring easing. Hovering an inactive sidebar entry shows the indicator at 50 % opacity as a destination preview. Custom monoline SVG icons are served from `public/nav-icons.js` (DOM API, no `innerHTML`); Lucide is used as fallback. The sidebar displays a **"Haushalt" section heading** between the four primary entries (Dashboard, Calendar, Tasks, Notes) and the module entries. Kitchen and More keep stable visible labels/icons; active subsections are communicated via localized `aria-label`/`aria-current` state and shared sub-tabs inside the module.
+- **Sub-tabs:** `public/utils/sub-tabs.js` renders sticky pill-style tab bars for Kitchen and Settings. It wires `role="tablist"`, `aria-selected`, `aria-controls`, `aria-labelledby`, keyboard arrow navigation, and panel focus coordination from one shared helper.
 - **Transitions:** Directional slide-X animation on page change (forward = from right, back = from left, 200ms) with spring easing. Respects `prefers-reduced-motion`.
 - **Empty states:** Consistent `.empty-state` class across all modules (icon + title + description, centered). Compact variant `.empty-state--compact` for meal slots.
 - **Modals:** Centered panel on desktop with glass overlay. On mobile (< 768px) bottom sheet - spring slide-in from below, sheet handle visible, swipe-to-close (> 80px downward). `focusin` scrolls inputs into view when the virtual keyboard is open. The modal lifecycle is managed as an explicit state machine (`idle → open → confirming → closing`) with encapsulated suspend/restore helpers, hardening the unsaved-changes confirmation against double-close and back-navigation races (v0.55.0). Modal titles and `selectModal` option labels are HTML-escaped centrally to prevent XSS from raw user data reused as modal headings.

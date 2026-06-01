@@ -85,7 +85,7 @@ Inhalt (zentriert, `--text-3`, `font-size: 0.8125rem`, `font-weight: 500`):
 ```
 
 - `{stars}`: live von GitHub API (selber Fetch wie Nav-Button, gemeinsam gecacht)
-- `{version}`: statisch hardcodiert, bei jedem Release aktualisiert (aktuell: `v0.55.3`)
+- `{version}`: statisch hardcodiert, bei jedem Release aktualisiert (aktuell: `v0.55.10`)
 - Kein Bild, keine Icons außer `★` (Unicode)
 - Auf Mobile: nur `★ {stars}  ·  16 languages  ·  MIT` (3 Elemente, Rest ausgeblendet via `@media (max-width: 600px)`)
 
@@ -212,7 +212,7 @@ Link zur `install.html` unter den 3 Schritten:
 ## 13. Footer
 
 **Neue Zeile über den Links:**  
-`v0.55.3  ·  ★ {stars}  ·  Last release: May 2026` — selbes Sterne-Objekt aus sessionStorage.
+`v0.55.10  ·  ★ {stars}  ·  Last release: June 2026` — selbes Sterne-Objekt aus sessionStorage.
 
 **Neue vierte Link-Option:**  
 `install.html` → `"Install"` / `"Installieren"` — neben GitHub, MIT, Contributing.
