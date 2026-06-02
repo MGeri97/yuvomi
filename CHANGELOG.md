@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.57.3] - 2026-06-02
+
+### Fixed
+- Login page now stays centered on desktop browsers. Before the first login no sidebar exists, but at viewports ≥1024px the app shell still switched to its sidebar row layout, which collapsed the sidebar-less login wrapper to its content width and pinned it to the left — making the desktop login look like the mobile layout. The shell now stays in column flow while the login page is mounted, so the form is fully centered again.
+
 ## [0.57.2] - 2026-06-02
 
 ### Changed
