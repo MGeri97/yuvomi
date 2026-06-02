@@ -49,3 +49,36 @@ test('/api/defaults-Route in install-server.js liefert ENV_SCHEMA (Snapshot)', (
   assert.ok(src.includes("import { ENV_SCHEMA }"), 'install-server.js importiert ENV_SCHEMA nicht');
   assert.ok(src.includes('catalog: ENV_SCHEMA'), '/api/defaults gibt ENV_SCHEMA nicht unter dem Schlüssel "catalog" zurück');
 });
+
+// ── Phase 1: Zeitzone und Port wirken ───────────────────────────────────────
+
+test('install.html nimmt TZ und OIKOS_HTTP_PORT ins gesendete env-Objekt auf', () => {
+  const src = readFileSync(new URL('./tools/installer/install.html', import.meta.url), 'utf8');
+  assert.match(src, /TZ:\s*S\.tz/, 'install.html sendet TZ nicht im env-Objekt');
+  assert.match(src, /OIKOS_HTTP_PORT:\s*S\.port/, 'install.html sendet OIKOS_HTTP_PORT nicht im env-Objekt');
+});
+
+test('docker-compose.yml mappt den Host-Port über OIKOS_HTTP_PORT mit Default 3000', () => {
+  const src = readFileSync(new URL('./docker-compose.yml', import.meta.url), 'utf8');
+  assert.match(
+    src,
+    /\$\{OIKOS_HTTP_PORT:-3000\}:3000/,
+    'Port-Mapping nutzt OIKOS_HTTP_PORT nicht mit Default :-3000 (Container-Port muss 3000 bleiben)'
+  );
+  assert.doesNotMatch(
+    src,
+    /^\s*-\s*"0\.0\.0\.0:3000:3000"/m,
+    'Hartkodiertes Port-Mapping 3000:3000 darf nicht mehr vorhanden sein'
+  );
+});
+
+test('install.sh schreibt TZ und OIKOS_HTTP_PORT in die generierte .env', () => {
+  const src = readFileSync(new URL('./install.sh', import.meta.url), 'utf8');
+  assert.match(src, /^TZ=\$\{OIKOS_TZ\}/m, 'install.sh schreibt TZ=${OIKOS_TZ} nicht in den .env-Block');
+  assert.match(src, /^OIKOS_HTTP_PORT=\$\{OIKOS_PORT\}/m, 'install.sh schreibt OIKOS_HTTP_PORT=${OIKOS_PORT} nicht in den .env-Block');
+});
+
+test('.env.example dokumentiert OIKOS_HTTP_PORT', () => {
+  const src = readFileSync(new URL('./.env.example', import.meta.url), 'utf8');
+  assert.match(src, /OIKOS_HTTP_PORT/, '.env.example dokumentiert OIKOS_HTTP_PORT nicht');
+});
