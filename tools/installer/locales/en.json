@@ -5,10 +5,11 @@
     "back": "Back",
     "generate": "Generate",
     "generating": "…",
-    "optional": "Optional"
+    "optional": "Optional",
+    "stepCounter": "Step {{n}} of {{total}}",
+    "toggleVisibility": "Show or hide value"
   },
   "config": {
-    "tag": "Step 1 of 7",
     "title": "Basic Configuration",
     "subtitle": "How will you access Oikos?",
     "existing": "Existing configuration detected — your current .env file will be backed up before saving.",
@@ -21,7 +22,6 @@
     "prereqMissing": "Missing prerequisites: {{list}}. Please install them and reload this page."
   },
   "secrets": {
-    "tag": "Step 2 of 7",
     "title": "Security Keys",
     "subtitle": "These protect your session and encrypt the database. Store your .env file safely — losing these keys means losing access to your data.",
     "sessionLabel": "Session Secret",
@@ -31,7 +31,6 @@
     "errBoth": "Both keys are required."
   },
   "weather": {
-    "tag": "Step 3 of 7",
     "title": "Weather Widget",
     "subtitle": "Show live weather on your dashboard. Requires a free OpenWeatherMap API key.",
     "enable": "Enable weather widget",
@@ -46,7 +45,6 @@
     "errKey": "API key is required when weather is enabled."
   },
   "calendar": {
-    "tag": "Step 4 of 7",
     "title": "Calendar Sync",
     "subtitle": "Connect Oikos to Google Calendar or Apple iCloud. Both optional — expand to configure.",
     "google": "Google Calendar",
@@ -64,7 +62,6 @@
     "appleUrlHint": "Leave empty unless your provider uses a different CalDAV endpoint."
   },
   "review": {
-    "tag": "Step 5 of 7",
     "title": "Review",
     "subtitle": "Check your settings before writing .env and starting the container.",
     "host": "Host",
@@ -80,7 +77,6 @@
     "configured": "configured"
   },
   "docker": {
-    "tag": "Step 6 of 7",
     "title": "Starting Oikos",
     "subtitle": "Pulling the image and starting the Docker container.",
     "starting": "Starting container …",
@@ -92,7 +88,6 @@
     "retry": "Retry"
   },
   "admin": {
-    "tag": "Step 7 of 7",
     "title": "Create Admin Account",
     "subtitle": "Set up your first login. This account has full access to Oikos.",
     "userLabel": "Username",

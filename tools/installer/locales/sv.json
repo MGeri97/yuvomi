@@ -5,10 +5,11 @@
     "back": "Tillbaka",
     "generate": "Generera",
     "generating": "…",
-    "optional": "Valfritt"
+    "optional": "Valfritt",
+    "stepCounter": "Steg {{n}} av {{total}}",
+    "toggleVisibility": "Visa eller dölj värdet"
   },
   "config": {
-    "tag": "Steg 1 av 7",
     "title": "Grundkonfiguration",
     "subtitle": "Hur kommer du att nå Oikos?",
     "existing": "Befintlig konfiguration upptäckt — en säkerhetskopia av din nuvarande .env-fil skapas innan den sparas.",
@@ -21,7 +22,6 @@
     "prereqMissing": "Saknade förutsättningar: {{list}}. Installera dem och ladda om sidan."
   },
   "secrets": {
-    "tag": "Steg 2 av 7",
     "title": "Säkerhetsnycklar",
     "subtitle": "De skyddar din session och krypterar databasen. Förvara din .env-fil säkert — att förlora dessa nycklar innebär att du förlorar åtkomsten till dina data.",
     "sessionLabel": "Sessionshemlighet",
@@ -31,7 +31,6 @@
     "errBoth": "Båda nycklarna krävs."
   },
   "weather": {
-    "tag": "Steg 3 av 7",
     "title": "Väderwidget",
     "subtitle": "Visa väder i realtid på din instrumentpanel. Kräver en gratis API-nyckel från OpenWeatherMap.",
     "enable": "Aktivera väderwidget",
@@ -46,7 +45,6 @@
     "errKey": "En API-nyckel krävs när vädret är aktiverat."
   },
   "calendar": {
-    "tag": "Steg 4 av 7",
     "title": "Kalendersynkronisering",
     "subtitle": "Anslut Oikos till Google Kalender eller Apple iCloud. Båda är valfria — expandera för att konfigurera.",
     "google": "Google Kalender",
@@ -64,7 +62,6 @@
     "appleUrlHint": "Lämna tomt om inte din leverantör använder en annan CalDAV-slutpunkt."
   },
   "review": {
-    "tag": "Steg 5 av 7",
     "title": "Granskning",
     "subtitle": "Kontrollera dina inställningar innan .env skrivs och containern startas.",
     "host": "Värd",
@@ -80,7 +77,6 @@
     "configured": "konfigurerat"
   },
   "docker": {
-    "tag": "Steg 6 av 7",
     "title": "Startar Oikos",
     "subtitle": "Hämtar avbildningen och startar Docker-containern.",
     "starting": "Startar containern …",
@@ -92,7 +88,6 @@
     "retry": "Försök igen"
   },
   "admin": {
-    "tag": "Steg 7 av 7",
     "title": "Skapa administratörskonto",
     "subtitle": "Konfigurera din första inloggning. Detta konto har full åtkomst till Oikos.",
     "userLabel": "Användarnamn",

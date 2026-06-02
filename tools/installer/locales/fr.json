@@ -5,10 +5,11 @@
     "back": "Retour",
     "generate": "Générer",
     "generating": "…",
-    "optional": "Facultatif"
+    "optional": "Facultatif",
+    "stepCounter": "Étape {{n}} sur {{total}}",
+    "toggleVisibility": "Afficher ou masquer la valeur"
   },
   "config": {
-    "tag": "Étape 1 sur 7",
     "title": "Configuration de base",
     "subtitle": "Comment accéderez-vous à Oikos ?",
     "existing": "Configuration existante détectée — une sauvegarde de votre fichier .env actuel sera créée avant l'enregistrement.",
@@ -21,7 +22,6 @@
     "prereqMissing": "Prérequis manquants : {{list}}. Veuillez les installer et recharger cette page."
   },
   "secrets": {
-    "tag": "Étape 2 sur 7",
     "title": "Clés de sécurité",
     "subtitle": "Elles protègent votre session et chiffrent la base de données. Conservez votre fichier .env en lieu sûr — perdre ces clés signifie perdre l'accès à vos données.",
     "sessionLabel": "Secret de session",
@@ -31,7 +31,6 @@
     "errBoth": "Les deux clés sont requises."
   },
   "weather": {
-    "tag": "Étape 3 sur 7",
     "title": "Widget météo",
     "subtitle": "Affichez la météo en direct sur votre tableau de bord. Nécessite une clé d'API OpenWeatherMap gratuite.",
     "enable": "Activer le widget météo",
@@ -46,7 +45,6 @@
     "errKey": "Une clé d'API est requise lorsque la météo est activée."
   },
   "calendar": {
-    "tag": "Étape 4 sur 7",
     "title": "Synchronisation du calendrier",
     "subtitle": "Connectez Oikos à Google Agenda ou Apple iCloud. Les deux sont facultatifs — dépliez pour configurer.",
     "google": "Google Agenda",
@@ -64,7 +62,6 @@
     "appleUrlHint": "Laissez vide sauf si votre fournisseur utilise un autre point d'accès CalDAV."
   },
   "review": {
-    "tag": "Étape 5 sur 7",
     "title": "Vérification",
     "subtitle": "Vérifiez vos paramètres avant d'écrire .env et de démarrer le conteneur.",
     "host": "Hôte",
@@ -80,7 +77,6 @@
     "configured": "configuré"
   },
   "docker": {
-    "tag": "Étape 6 sur 7",
     "title": "Démarrage d'Oikos",
     "subtitle": "Téléchargement de l'image et démarrage du conteneur Docker.",
     "starting": "Démarrage du conteneur …",
@@ -92,7 +88,6 @@
     "retry": "Réessayer"
   },
   "admin": {
-    "tag": "Étape 7 sur 7",
     "title": "Créer un compte administrateur",
     "subtitle": "Configurez votre première connexion. Ce compte a un accès complet à Oikos.",
     "userLabel": "Nom d'utilisateur",

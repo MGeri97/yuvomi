@@ -5,10 +5,11 @@
     "back": "Zurück",
     "generate": "Generieren",
     "generating": "…",
-    "optional": "Optional"
+    "optional": "Optional",
+    "stepCounter": "Schritt {{n}} von {{total}}",
+    "toggleVisibility": "Wert anzeigen oder verbergen"
   },
   "config": {
-    "tag": "Schritt 1 von 7",
     "title": "Grundkonfiguration",
     "subtitle": "Wie möchtest du auf Oikos zugreifen?",
     "existing": "Bestehende Konfiguration erkannt — deine aktuelle .env-Datei wird vor dem Speichern gesichert.",
@@ -21,7 +22,6 @@
     "prereqMissing": "Fehlende Voraussetzungen: {{list}}. Bitte installiere sie und lade die Seite neu."
   },
   "secrets": {
-    "tag": "Schritt 2 von 7",
     "title": "Sicherheitsschlüssel",
     "subtitle": "Diese schützen deine Sitzung und verschlüsseln die Datenbank. Bewahre deine .env-Datei sicher auf — der Verlust dieser Schlüssel bedeutet den Verlust des Zugriffs auf deine Daten.",
     "sessionLabel": "Session-Secret",
@@ -31,7 +31,6 @@
     "errBoth": "Beide Schlüssel sind erforderlich."
   },
   "weather": {
-    "tag": "Schritt 3 von 7",
     "title": "Wetter-Widget",
     "subtitle": "Zeige Live-Wetter auf deinem Dashboard. Erfordert einen kostenlosen OpenWeatherMap-API-Schlüssel.",
     "enable": "Wetter-Widget aktivieren",
@@ -46,7 +45,6 @@
     "errKey": "Ein API-Schlüssel ist erforderlich, wenn das Wetter aktiviert ist."
   },
   "calendar": {
-    "tag": "Schritt 4 von 7",
     "title": "Kalender-Synchronisation",
     "subtitle": "Verbinde Oikos mit Google Kalender oder Apple iCloud. Beides optional — zum Konfigurieren ausklappen.",
     "google": "Google Kalender",
@@ -85,7 +83,6 @@
     "backupKeepLabel": "Aufzubewahrende Backups"
   },
   "review": {
-    "tag": "Schritt 5 von 7",
     "title": "Überprüfung",
     "subtitle": "Prüfe deine Einstellungen, bevor .env geschrieben und der Container gestartet wird.",
     "host": "Host",
@@ -101,7 +98,6 @@
     "configured": "konfiguriert"
   },
   "docker": {
-    "tag": "Schritt 6 von 7",
     "title": "Oikos wird gestartet",
     "subtitle": "Das Image wird geladen und der Docker-Container gestartet.",
     "starting": "Container wird gestartet …",
@@ -113,7 +109,6 @@
     "retry": "Erneut versuchen"
   },
   "admin": {
-    "tag": "Schritt 7 von 7",
     "title": "Admin-Konto erstellen",
     "subtitle": "Richte deinen ersten Login ein. Dieses Konto hat vollen Zugriff auf Oikos.",
     "userLabel": "Benutzername",

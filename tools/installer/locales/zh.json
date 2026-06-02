@@ -5,10 +5,11 @@
     "back": "返回",
     "generate": "生成",
     "generating": "…",
-    "optional": "可选"
+    "optional": "可选",
+    "stepCounter": "第 {{n}} 步，共 {{total}} 步",
+    "toggleVisibility": "显示或隐藏值"
   },
   "config": {
-    "tag": "第 1 步，共 7 步",
     "title": "基本配置",
     "subtitle": "您将如何访问 Oikos？",
     "existing": "检测到现有配置——保存前将备份您当前的 .env 文件。",
@@ -21,7 +22,6 @@
     "prereqMissing": "缺少必要组件：{{list}}。请先安装它们并重新加载此页面。"
   },
   "secrets": {
-    "tag": "第 2 步，共 7 步",
     "title": "安全密钥",
     "subtitle": "它们保护您的会话并加密数据库。请妥善保管您的 .env 文件——丢失这些密钥意味着失去对数据的访问权限。",
     "sessionLabel": "会话密钥",
@@ -31,7 +31,6 @@
     "errBoth": "两个密钥都为必填项。"
   },
   "weather": {
-    "tag": "第 3 步，共 7 步",
     "title": "天气小组件",
     "subtitle": "在您的仪表板上显示实时天气。需要免费的 OpenWeatherMap API 密钥。",
     "enable": "启用天气小组件",
@@ -46,7 +45,6 @@
     "errKey": "启用天气时需要 API 密钥。"
   },
   "calendar": {
-    "tag": "第 4 步，共 7 步",
     "title": "日历同步",
     "subtitle": "将 Oikos 连接到 Google 日历或 Apple iCloud。两者均为可选——展开以进行配置。",
     "google": "Google 日历",
@@ -64,7 +62,6 @@
     "appleUrlHint": "除非你的服务商使用不同的 CalDAV 端点，否则留空即可。"
   },
   "review": {
-    "tag": "第 5 步，共 7 步",
     "title": "检查",
     "subtitle": "在写入 .env 并启动容器之前检查您的设置。",
     "host": "主机",
@@ -80,7 +77,6 @@
     "configured": "已配置"
   },
   "docker": {
-    "tag": "第 6 步，共 7 步",
     "title": "正在启动 Oikos",
     "subtitle": "正在拉取镜像并启动 Docker 容器。",
     "starting": "正在启动容器 …",
@@ -92,7 +88,6 @@
     "retry": "重试"
   },
   "admin": {
-    "tag": "第 7 步，共 7 步",
     "title": "创建管理员账户",
     "subtitle": "设置您的首次登录。此账户拥有对 Oikos 的完全访问权限。",
     "userLabel": "用户名",

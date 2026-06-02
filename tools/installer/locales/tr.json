@@ -5,10 +5,11 @@
     "back": "Geri",
     "generate": "Oluştur",
     "generating": "…",
-    "optional": "İsteğe bağlı"
+    "optional": "İsteğe bağlı",
+    "stepCounter": "Adım {{n}} / {{total}}",
+    "toggleVisibility": "Değeri göster veya gizle"
   },
   "config": {
-    "tag": "Adım 1 / 7",
     "title": "Temel Yapılandırma",
     "subtitle": "Oikos'a nasıl erişeceksiniz?",
     "existing": "Mevcut yapılandırma algılandı — kaydetmeden önce geçerli .env dosyanızın yedeği alınacak.",
@@ -21,7 +22,6 @@
     "prereqMissing": "Eksik ön koşullar: {{list}}. Lütfen bunları kurun ve sayfayı yeniden yükleyin."
   },
   "secrets": {
-    "tag": "Adım 2 / 7",
     "title": "Güvenlik Anahtarları",
     "subtitle": "Bunlar oturumunuzu korur ve veritabanını şifreler. .env dosyanızı güvenli bir şekilde saklayın — bu anahtarları kaybetmek verilerinize erişimi kaybetmek anlamına gelir.",
     "sessionLabel": "Oturum Gizli Anahtarı",
@@ -31,7 +31,6 @@
     "errBoth": "Her iki anahtar da gereklidir."
   },
   "weather": {
-    "tag": "Adım 3 / 7",
     "title": "Hava Durumu Widget'ı",
     "subtitle": "Panonuzda canlı hava durumunu gösterin. Ücretsiz bir OpenWeatherMap API anahtarı gerektirir.",
     "enable": "Hava durumu widget'ını etkinleştir",
@@ -46,7 +45,6 @@
     "errKey": "Hava durumu etkinleştirildiğinde API anahtarı gereklidir."
   },
   "calendar": {
-    "tag": "Adım 4 / 7",
     "title": "Takvim Senkronizasyonu",
     "subtitle": "Oikos'u Google Takvim veya Apple iCloud'a bağlayın. İkisi de isteğe bağlı — yapılandırmak için genişletin.",
     "google": "Google Takvim",
@@ -64,7 +62,6 @@
     "appleUrlHint": "Sağlayıcınız farklı bir CalDAV uç noktası kullanmıyorsa boş bırakın."
   },
   "review": {
-    "tag": "Adım 5 / 7",
     "title": "İnceleme",
     "subtitle": ".env yazılmadan ve kapsayıcı başlatılmadan önce ayarlarınızı kontrol edin.",
     "host": "Ana bilgisayar",
@@ -80,7 +77,6 @@
     "configured": "yapılandırıldı"
   },
   "docker": {
-    "tag": "Adım 6 / 7",
     "title": "Oikos başlatılıyor",
     "subtitle": "İmaj indiriliyor ve Docker kapsayıcısı başlatılıyor.",
     "starting": "Kapsayıcı başlatılıyor …",
@@ -92,7 +88,6 @@
     "retry": "Yeniden dene"
   },
   "admin": {
-    "tag": "Adım 7 / 7",
     "title": "Yönetici Hesabı Oluştur",
     "subtitle": "İlk girişinizi ayarlayın. Bu hesap Oikos'a tam erişime sahiptir.",
     "userLabel": "Kullanıcı adı",

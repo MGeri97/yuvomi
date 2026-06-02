@@ -5,10 +5,11 @@
     "back": "Wstecz",
     "generate": "Generuj",
     "generating": "…",
-    "optional": "Opcjonalne"
+    "optional": "Opcjonalne",
+    "stepCounter": "Krok {{n}} z {{total}}",
+    "toggleVisibility": "Pokaż lub ukryj wartość"
   },
   "config": {
-    "tag": "Krok 1 z 7",
     "title": "Konfiguracja podstawowa",
     "subtitle": "Jak będziesz uzyskiwać dostęp do Oikos?",
     "existing": "Wykryto istniejącą konfigurację — przed zapisaniem zostanie utworzona kopia zapasowa bieżącego pliku .env.",
@@ -21,7 +22,6 @@
     "prereqMissing": "Brak wymaganych składników: {{list}}. Zainstaluj je i odśwież tę stronę."
   },
   "secrets": {
-    "tag": "Krok 2 z 7",
     "title": "Klucze bezpieczeństwa",
     "subtitle": "Chronią Twoją sesję i szyfrują bazę danych. Przechowuj plik .env w bezpiecznym miejscu — utrata tych kluczy oznacza utratę dostępu do danych.",
     "sessionLabel": "Sekret sesji",
@@ -31,7 +31,6 @@
     "errBoth": "Oba klucze są wymagane."
   },
   "weather": {
-    "tag": "Krok 3 z 7",
     "title": "Widżet pogody",
     "subtitle": "Wyświetlaj pogodę na żywo na pulpicie. Wymaga bezpłatnego klucza API OpenWeatherMap.",
     "enable": "Włącz widżet pogody",
@@ -46,7 +45,6 @@
     "errKey": "Klucz API jest wymagany, gdy pogoda jest włączona."
   },
   "calendar": {
-    "tag": "Krok 4 z 7",
     "title": "Synchronizacja kalendarza",
     "subtitle": "Połącz Oikos z Kalendarzem Google lub Apple iCloud. Oba są opcjonalne — rozwiń, aby skonfigurować.",
     "google": "Kalendarz Google",
@@ -64,7 +62,6 @@
     "appleUrlHint": "Pozostaw puste, chyba że Twój dostawca używa innego punktu końcowego CalDAV."
   },
   "review": {
-    "tag": "Krok 5 z 7",
     "title": "Przegląd",
     "subtitle": "Sprawdź ustawienia przed zapisaniem pliku .env i uruchomieniem kontenera.",
     "host": "Host",
@@ -80,7 +77,6 @@
     "configured": "skonfigurowano"
   },
   "docker": {
-    "tag": "Krok 6 z 7",
     "title": "Uruchamianie Oikos",
     "subtitle": "Pobieranie obrazu i uruchamianie kontenera Docker.",
     "starting": "Uruchamianie kontenera …",
@@ -92,7 +88,6 @@
     "retry": "Spróbuj ponownie"
   },
   "admin": {
-    "tag": "Krok 7 z 7",
     "title": "Utwórz konto administratora",
     "subtitle": "Skonfiguruj swoje pierwsze logowanie. To konto ma pełny dostęp do Oikos.",
     "userLabel": "Nazwa użytkownika",

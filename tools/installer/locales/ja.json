@@ -5,10 +5,11 @@
     "back": "戻る",
     "generate": "生成",
     "generating": "…",
-    "optional": "任意"
+    "optional": "任意",
+    "stepCounter": "ステップ {{n}} / {{total}}",
+    "toggleVisibility": "値を表示または非表示にする"
   },
   "config": {
-    "tag": "ステップ 1 / 7",
     "title": "基本設定",
     "subtitle": "Oikos にどのようにアクセスしますか？",
     "existing": "既存の設定が検出されました — 保存前に現在の .env ファイルがバックアップされます。",
@@ -21,7 +22,6 @@
     "prereqMissing": "前提条件が不足しています: {{list}}。インストールしてからページを再読み込みしてください。"
   },
   "secrets": {
-    "tag": "ステップ 2 / 7",
     "title": "セキュリティキー",
     "subtitle": "これらはセッションを保護し、データベースを暗号化します。.env ファイルは安全に保管してください — これらのキーを失うと、データへのアクセスを失います。",
     "sessionLabel": "セッションシークレット",
@@ -31,7 +31,6 @@
     "errBoth": "両方のキーが必要です。"
   },
   "weather": {
-    "tag": "ステップ 3 / 7",
     "title": "天気ウィジェット",
     "subtitle": "ダッシュボードにリアルタイムの天気を表示します。無料の OpenWeatherMap API キーが必要です。",
     "enable": "天気ウィジェットを有効にする",
@@ -46,7 +45,6 @@
     "errKey": "天気を有効にする場合は API キーが必要です。"
   },
   "calendar": {
-    "tag": "ステップ 4 / 7",
     "title": "カレンダー同期",
     "subtitle": "Oikos を Google カレンダーまたは Apple iCloud に接続します。どちらも任意です — 設定するには展開してください。",
     "google": "Google カレンダー",
@@ -64,7 +62,6 @@
     "appleUrlHint": "プロバイダーが別の CalDAV エンドポイントを使用していない限り、空のままにしてください。"
   },
   "review": {
-    "tag": "ステップ 5 / 7",
     "title": "確認",
     "subtitle": ".env を書き込んでコンテナを起動する前に、設定を確認してください。",
     "host": "ホスト",
@@ -80,7 +77,6 @@
     "configured": "設定済み"
   },
   "docker": {
-    "tag": "ステップ 6 / 7",
     "title": "Oikos を起動しています",
     "subtitle": "イメージを取得し、Docker コンテナを起動しています。",
     "starting": "コンテナを起動しています …",
@@ -92,7 +88,6 @@
     "retry": "再試行"
   },
   "admin": {
-    "tag": "ステップ 7 / 7",
     "title": "管理者アカウントを作成",
     "subtitle": "最初のログインを設定します。このアカウントは Oikos への完全なアクセス権を持ちます。",
     "userLabel": "ユーザー名",

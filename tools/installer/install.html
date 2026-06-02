@@ -42,7 +42,7 @@
       border-color: var(--color-accent);
       box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent);
     }
-    .secret-row { display: flex; gap: 7px; }
+    .secret-row { display: flex; gap: 7px; flex-wrap: wrap; }
     .secret-row input { flex: 1; font-family: var(--font-mono); font-size: 12px; }
     .hint { font-size: 12px; color: var(--color-text-secondary); margin-top: 5px; line-height: 1.4; }
     .hint a { color: var(--color-accent); }
@@ -72,9 +72,14 @@
     .toggle-card { border: 1.5px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 14px; }
     .toggle-head {
       display: flex; align-items: center; justify-content: space-between;
-      padding: 13px 16px; cursor: pointer; user-select: none; font-size: 14px; font-weight: 600;
+      width: 100%; padding: 13px 16px; cursor: pointer; user-select: none;
+      font-family: var(--font-sans); font-size: 14px; font-weight: 600; text-align: left;
+      background: var(--color-surface); color: var(--color-text-primary); border: none;
     }
     .toggle-head:hover { background: var(--color-surface-2); }
+    .toggle-head:focus-visible {
+      outline: none; box-shadow: inset 0 0 0 2px var(--color-accent);
+    }
     .toggle-badge { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); }
     .toggle-body { display: none; padding: 16px; border-top: 1.5px solid var(--color-border); background: var(--color-surface-2); }
     .toggle-body.open { display: block; }
@@ -113,15 +118,15 @@
     <!-- Step 1: Basic Config -->
     <div class="step" id="step-config">
       <div class="card-head">
-        <div class="step-tag" data-i18n="config.tag">Step 1 of 7</div>
-        <h1 data-i18n="config.title">Basic Configuration</h1>
+        <div class="step-tag"></div>
+        <h1 tabindex="-1" data-i18n="config.title">Basic Configuration</h1>
         <p data-i18n="config.subtitle">How will you access Oikos?</p>
       </div>
       <div class="card-body">
         <div class="info-banner" id="cfg-existing" style="display:none" data-i18n="config.existing">
           Existing configuration detected — your current .env file will be backed up before saving.
         </div>
-        <div class="error-banner" id="cfg-prereq" data-i18n="config.prereqMissing">
+        <div class="error-banner" id="cfg-prereq" role="alert" data-i18n="config.prereqMissing">
           Missing prerequisites. Please install them and reload this page.
         </div>
         <div class="field">
@@ -137,9 +142,9 @@
           <label for="cfg-tz" data-i18n="config.tzLabel">Timezone</label>
           <input type="text" id="cfg-tz" placeholder="Europe/Berlin">
         </div>
+        <div class="error-banner" id="cfg-err" role="alert"></div>
       </div>
       <div class="card-foot">
-        <div id="cfg-err" class="error" style="display:none"></div>
         <button class="btn btn-primary" id="cfg-next" data-i18n="common.continue">Continue</button>
       </div>
     </div>
@@ -147,8 +152,8 @@
     <!-- Step 2: Secrets -->
     <div class="step" id="step-secrets">
       <div class="card-head">
-        <div class="step-tag" data-i18n="secrets.tag">Step 2 of 7</div>
-        <h1 data-i18n="secrets.title">Security Keys</h1>
+        <div class="step-tag"></div>
+        <h1 tabindex="-1" data-i18n="secrets.title">Security Keys</h1>
         <p data-i18n="secrets.subtitle">These protect your session and encrypt the database. Store your .env file safely — losing these keys means losing access to your data.</p>
       </div>
       <div class="card-body">
@@ -156,7 +161,7 @@
           <label for="sec-session" data-i18n="secrets.sessionLabel">Session Secret</label>
           <div class="secret-row">
             <input type="password" id="sec-session" autocomplete="off" spellcheck="false">
-            <button class="btn btn-ghost btn-sm" data-eye="sec-session">&#x1F441;</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-eye="sec-session" aria-label="Show or hide value" data-i18n-aria="common.toggleVisibility">&#x1F441;</button>
             <button class="btn btn-ghost btn-sm" data-gen="sec-session" data-i18n="common.generate">Generate</button>
           </div>
           <div class="hint" data-i18n="secrets.sessionHint">Signs browser session cookies.</div>
@@ -165,12 +170,12 @@
           <label for="sec-db" data-i18n="secrets.dbLabel">Database Encryption Key</label>
           <div class="secret-row">
             <input type="password" id="sec-db" autocomplete="off" spellcheck="false">
-            <button class="btn btn-ghost btn-sm" data-eye="sec-db">&#x1F441;</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-eye="sec-db" aria-label="Show or hide value" data-i18n-aria="common.toggleVisibility">&#x1F441;</button>
             <button class="btn btn-ghost btn-sm" data-gen="sec-db" data-i18n="common.generate">Generate</button>
           </div>
           <div class="hint" data-i18n="secrets.dbHint">Encrypts the SQLite database at rest.</div>
         </div>
-        <div class="error-banner" id="sec-err"></div>
+        <div class="error-banner" id="sec-err" role="alert"></div>
       </div>
       <div class="card-foot">
         <button class="btn btn-ghost" data-back data-i18n="common.back">Back</button>
@@ -181,8 +186,8 @@
     <!-- Step 3: Weather -->
     <div class="step" id="step-weather">
       <div class="card-head">
-        <div class="step-tag" data-i18n="weather.tag">Step 3 of 7</div>
-        <h1 data-i18n="weather.title">Weather Widget</h1>
+        <div class="step-tag"></div>
+        <h1 tabindex="-1" data-i18n="weather.title">Weather Widget</h1>
         <p data-i18n="weather.subtitle">Show live weather on your dashboard. Requires a free OpenWeatherMap API key.</p>
       </div>
       <div class="card-body">
@@ -207,7 +212,7 @@
             </select>
           </div>
         </div>
-        <div class="error-banner" id="wea-err"></div>
+        <div class="error-banner" id="wea-err" role="alert"></div>
       </div>
       <div class="card-foot">
         <button class="btn btn-ghost" data-back data-i18n="common.back">Back</button>
@@ -218,16 +223,16 @@
     <!-- Step 4: Calendar -->
     <div class="step" id="step-calendar">
       <div class="card-head">
-        <div class="step-tag" data-i18n="calendar.tag">Step 4 of 7</div>
-        <h1 data-i18n="calendar.title">Calendar Sync</h1>
+        <div class="step-tag"></div>
+        <h1 tabindex="-1" data-i18n="calendar.title">Calendar Sync</h1>
         <p data-i18n="calendar.subtitle">Connect Oikos to Google Calendar or Apple iCloud. Both optional — expand to configure.</p>
       </div>
       <div class="card-body">
         <div class="toggle-card">
-          <div class="toggle-head" data-toggle="gcal-body">
+          <button type="button" class="toggle-head" data-toggle="gcal-body" aria-expanded="false" aria-controls="gcal-body">
             <span data-i18n="calendar.google">Google Calendar</span>
             <span class="toggle-badge" id="gcal-badge" data-i18n="common.optional">Optional</span>
-          </div>
+          </button>
           <div class="toggle-body" id="gcal-body">
             <p class="hint" id="gcal-hint" style="margin-bottom:12px">
               Create OAuth credentials at <a href="https://console.cloud.google.com" target="_blank" rel="noopener">console.cloud.google.com</a>.
@@ -244,10 +249,10 @@
           </div>
         </div>
         <div class="toggle-card">
-          <div class="toggle-head" data-toggle="apple-body">
+          <button type="button" class="toggle-head" data-toggle="apple-body" aria-expanded="false" aria-controls="apple-body">
             <span data-i18n="calendar.apple">Apple iCloud CalDAV</span>
             <span class="toggle-badge" id="apple-badge" data-i18n="common.optional">Optional</span>
-          </div>
+          </button>
           <div class="toggle-body" id="apple-body">
             <p class="hint" id="apple-hint" style="margin-bottom:12px">
               Create an app-specific password at <a href="https://appleid.apple.com" target="_blank" rel="noopener">appleid.apple.com</a>.
@@ -278,7 +283,7 @@
     <div class="step" id="step-advanced">
       <div class="card-head">
         <div class="step-tag" data-i18n="advanced.tag">Advanced · optional</div>
-        <h1 data-i18n="advanced.title">Advanced Settings</h1>
+        <h1 tabindex="-1" data-i18n="advanced.title">Advanced Settings</h1>
         <p data-i18n="advanced.subtitle">Reverse proxy, single sign-on and automatic backups. All optional — skipping is safe.</p>
       </div>
       <div class="card-body">
@@ -292,10 +297,10 @@
         </div>
 
         <div class="toggle-card">
-          <div class="toggle-head" data-toggle="oidc-body">
+          <button type="button" class="toggle-head" data-toggle="oidc-body" aria-expanded="false" aria-controls="oidc-body">
             <span data-i18n="advanced.oidc">Single Sign-On (OIDC)</span>
             <span class="toggle-badge" data-i18n="common.optional">Optional</span>
-          </div>
+          </button>
           <div class="toggle-body" id="oidc-body">
             <p class="hint" style="margin-bottom:12px" data-i18n="advanced.oidcHint">Fill in all four fields to enable SSO, or leave them empty.</p>
             <div class="field">
@@ -318,10 +323,10 @@
         </div>
 
         <div class="toggle-card">
-          <div class="toggle-head" data-toggle="backup-body">
+          <button type="button" class="toggle-head" data-toggle="backup-body" aria-expanded="false" aria-controls="backup-body">
             <span data-i18n="advanced.backup">Automatic Backups</span>
             <span class="toggle-badge" data-i18n="common.optional">Optional</span>
-          </div>
+          </button>
           <div class="toggle-body" id="backup-body">
             <div class="field">
               <label><input type="checkbox" id="adv-backup-enable" checked> <span data-i18n="advanced.backupEnable">Enable automatic backups</span></label>
@@ -338,7 +343,7 @@
           </div>
         </div>
 
-        <div class="error-banner" id="adv-err"></div>
+        <div class="error-banner" id="adv-err" role="alert"></div>
       </div>
       <div class="card-foot">
         <button class="btn btn-ghost" data-back data-i18n="common.back">Back</button>
@@ -349,8 +354,8 @@
     <!-- Step 5: Review -->
     <div class="step" id="step-review">
       <div class="card-head">
-        <div class="step-tag" data-i18n="review.tag">Step 5 of 7</div>
-        <h1 data-i18n="review.title">Review</h1>
+        <div class="step-tag"></div>
+        <h1 tabindex="-1" data-i18n="review.title">Review</h1>
         <p data-i18n="review.subtitle">Check your settings before writing .env and starting the container.</p>
       </div>
       <div class="card-body">
@@ -364,7 +369,7 @@
           <div class="review-key" data-i18n="review.google">Google Calendar</div><div id="rv-google"></div>
           <div class="review-key" data-i18n="review.apple">Apple CalDAV</div>   <div id="rv-apple"></div>
         </div>
-        <div class="error-banner" id="rev-err"></div>
+        <div class="error-banner" id="rev-err" role="alert"></div>
       </div>
       <div class="card-foot">
         <button class="btn btn-ghost" data-back data-i18n="common.back">Back</button>
@@ -375,14 +380,14 @@
     <!-- Step 6: Docker -->
     <div class="step" id="step-docker">
       <div class="card-head">
-        <div class="step-tag" data-i18n="docker.tag">Step 6 of 7</div>
-        <h1 data-i18n="docker.title">Starting Oikos</h1>
+        <div class="step-tag"></div>
+        <h1 tabindex="-1" data-i18n="docker.title">Starting Oikos</h1>
         <p data-i18n="docker.subtitle">Pulling the image and starting the Docker container.</p>
       </div>
       <div class="card-body">
         <div class="status-box">
-          <div class="status-row">
-            <div class="spinner" id="dkr-icon"></div>
+          <div class="status-row" role="status" aria-live="polite">
+            <div class="spinner" id="dkr-icon" aria-hidden="true"></div>
             <div>
               <div id="dkr-text" data-i18n="docker.starting">Starting container&#x2026;</div>
               <div class="elapsed" id="dkr-elapsed"></div>
@@ -399,8 +404,8 @@
     <!-- Step 7: Admin -->
     <div class="step" id="step-admin">
       <div class="card-head">
-        <div class="step-tag" data-i18n="admin.tag">Step 7 of 7</div>
-        <h1 data-i18n="admin.title">Create Admin Account</h1>
+        <div class="step-tag"></div>
+        <h1 tabindex="-1" data-i18n="admin.title">Create Admin Account</h1>
         <p data-i18n="admin.subtitle">Set up your first login. This account has full access to Oikos.</p>
       </div>
       <div class="card-body">
@@ -417,14 +422,14 @@
           <label for="adm-pass" data-i18n="admin.passLabel">Password</label>
           <div class="secret-row">
             <input type="password" id="adm-pass" placeholder="At least 8 characters" data-i18n-ph="admin.passPlaceholder" autocomplete="new-password">
-            <button class="btn btn-ghost btn-sm" data-eye="adm-pass">&#x1F441;</button>
+            <button type="button" class="btn btn-ghost btn-sm" data-eye="adm-pass" aria-label="Show or hide value" data-i18n-aria="common.toggleVisibility">&#x1F441;</button>
           </div>
         </div>
         <div class="field">
           <label for="adm-conf" data-i18n="admin.confLabel">Confirm Password</label>
           <input type="password" id="adm-conf" autocomplete="new-password">
         </div>
-        <div class="error-banner" id="adm-err"></div>
+        <div class="error-banner" id="adm-err" role="alert"></div>
       </div>
       <div class="card-foot">
         <button class="btn btn-primary" id="adm-next" data-i18n="admin.create">Create Account</button>
@@ -436,7 +441,7 @@
       <div class="card-body">
         <div class="done-wrap">
           <div class="icon">&#x1F389;</div>
-          <h2 data-i18n="done.title">Oikos is ready!</h2>
+          <h2 tabindex="-1" data-i18n="done.title">Oikos is ready!</h2>
           <p data-i18n="done.subtitle">Your family planner is running and your admin account is set up.</p>
           <a id="done-link" class="open-link" href="#" target="_blank" rel="noopener" data-i18n="done.open">Open Oikos &#x2192;</a>
         </div>
@@ -457,6 +462,19 @@ const $ = id => document.getElementById(id);
 // bevor die UI sichtbar interagiert. Setzt lang/dir (RTL für ar) am <html>.
 await initInstallerI18n();
 applyTranslations(document);
+
+// aria-label lokalisieren (i18n-mini deckt nur textContent/placeholder ab).
+document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+  el.setAttribute('aria-label', t(el.dataset.i18nAria));
+});
+
+// Schrittzähler aus der Schrittfolge ableiten statt „N von 7" zu hartcodieren.
+// „advanced" (optional) und „done" tragen bewusst keine Nummer.
+const NUMBERED_STEPS = ['config', 'secrets', 'weather', 'calendar', 'review', 'docker', 'admin'];
+NUMBERED_STEPS.forEach((name, i) => {
+  const tag = document.querySelector(`#step-${name} .step-tag`);
+  if (tag) tag.textContent = t('common.stepCounter', { n: i + 1, total: NUMBERED_STEPS.length });
+});
 
 // Strings mit eingebetteten Links/Code: innerHTML-frei über applyRich
 // zusammensetzen, damit die Wortstellung je Sprache erhalten bleibt.
@@ -533,6 +551,10 @@ function showStep(n) {
   });
   setProgress(n);
   window.scrollTo(0, 0);
+  // Fokus auf die Überschrift des neuen Schritts, damit Tastatur-/Screenreader-
+  // Nutzer der Navigation folgen (WCAG 2.4.3). preventScroll verhindert Sprünge.
+  const heading = $(`step-${STEPS[n]}`)?.querySelector('h1, h2');
+  if (heading) heading.focus({ preventScroll: true });
 }
 
 function showErr(id, msg) {
@@ -562,9 +584,10 @@ document.addEventListener('click', async e => {
     return;
   }
 
-  const toggleId = e.target.closest('[data-toggle]')?.dataset.toggle;
-  if (toggleId) {
-    $(toggleId).classList.toggle('open');
+  const toggleBtn = e.target.closest('[data-toggle]');
+  if (toggleBtn) {
+    const open = $(toggleBtn.dataset.toggle).classList.toggle('open');
+    toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     return;
   }
 

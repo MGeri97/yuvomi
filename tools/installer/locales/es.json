@@ -5,10 +5,11 @@
     "back": "Atrás",
     "generate": "Generar",
     "generating": "…",
-    "optional": "Opcional"
+    "optional": "Opcional",
+    "stepCounter": "Paso {{n}} de {{total}}",
+    "toggleVisibility": "Mostrar u ocultar el valor"
   },
   "config": {
-    "tag": "Paso 1 de 7",
     "title": "Configuración básica",
     "subtitle": "¿Cómo accederás a Oikos?",
     "existing": "Configuración existente detectada: se hará una copia de seguridad de tu archivo .env actual antes de guardar.",
@@ -21,7 +22,6 @@
     "prereqMissing": "Faltan requisitos: {{list}}. Instálalos y vuelve a cargar esta página."
   },
   "secrets": {
-    "tag": "Paso 2 de 7",
     "title": "Claves de seguridad",
     "subtitle": "Protegen tu sesión y cifran la base de datos. Guarda tu archivo .env de forma segura: perder estas claves significa perder el acceso a tus datos.",
     "sessionLabel": "Secreto de sesión",
@@ -31,7 +31,6 @@
     "errBoth": "Ambas claves son obligatorias."
   },
   "weather": {
-    "tag": "Paso 3 de 7",
     "title": "Widget del tiempo",
     "subtitle": "Muestra el tiempo en directo en tu panel. Requiere una clave de API gratuita de OpenWeatherMap.",
     "enable": "Activar el widget del tiempo",
@@ -46,7 +45,6 @@
     "errKey": "La clave de API es obligatoria cuando el tiempo está activado."
   },
   "calendar": {
-    "tag": "Paso 4 de 7",
     "title": "Sincronización de calendario",
     "subtitle": "Conecta Oikos con Google Calendar o Apple iCloud. Ambos son opcionales: despliega para configurar.",
     "google": "Google Calendar",
@@ -64,7 +62,6 @@
     "appleUrlHint": "Déjalo vacío salvo que tu proveedor use un punto de enlace CalDAV diferente."
   },
   "review": {
-    "tag": "Paso 5 de 7",
     "title": "Revisión",
     "subtitle": "Comprueba tu configuración antes de escribir .env e iniciar el contenedor.",
     "host": "Host",
@@ -80,7 +77,6 @@
     "configured": "configurado"
   },
   "docker": {
-    "tag": "Paso 6 de 7",
     "title": "Iniciando Oikos",
     "subtitle": "Descargando la imagen e iniciando el contenedor de Docker.",
     "starting": "Iniciando el contenedor …",
@@ -92,7 +88,6 @@
     "retry": "Reintentar"
   },
   "admin": {
-    "tag": "Paso 7 de 7",
     "title": "Crear cuenta de administrador",
     "subtitle": "Configura tu primer inicio de sesión. Esta cuenta tiene acceso completo a Oikos.",
     "userLabel": "Nombre de usuario",
