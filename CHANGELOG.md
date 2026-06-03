@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.60.1] - 2026-06-03
+
+### Fixed
+- Show recurring calendar events on the Overview page (#224). The dashboard used a simplified upcoming-events query that filtered on the event's master `start_datetime` without expanding recurrence rules, so a recurring series whose first occurrence was in the past never appeared on the Overview — even though it showed correctly on the Calendar page. This made calendar items look like they were missing for specific family members. The dashboard and `/calendar/upcoming` now share the same recurrence-aware logic (`server/services/calendar-events.js`), including ICS visibility filtering.
+
 ## [0.60.0] - 2026-06-03
 
 ### Added
