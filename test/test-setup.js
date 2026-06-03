@@ -60,6 +60,13 @@ test('POST /api/v1/auth/setup: 400 when display_name too long', async () => {
   assert.equal(res.status, 400);
 });
 
+test('GET /api/v1/version: setup_required is true when no users exist', async () => {
+  const res = await fetch(`${BASE}/api/v1/version`);
+  assert.equal(res.status, 200);
+  const data = await res.json();
+  assert.equal(data.setup_required, true);
+});
+
 test('POST /api/v1/auth/setup: 201 creates first admin', async () => {
   const res = await fetch(`${BASE}/api/v1/auth/setup`, {
     method: 'POST',
@@ -73,6 +80,13 @@ test('POST /api/v1/auth/setup: 201 creates first admin', async () => {
   assert.equal(data.user.role, 'admin');
   assert.ok(typeof data.user.id === 'number');
   assert.ok(typeof data.user.avatar_color === 'string' && data.user.avatar_color.startsWith('#'));
+});
+
+test('GET /api/v1/version: setup_required is false after admin exists', async () => {
+  const res = await fetch(`${BASE}/api/v1/version`);
+  assert.equal(res.status, 200);
+  const data = await res.json();
+  assert.equal(data.setup_required, false);
 });
 
 test('POST /api/v1/auth/setup: 403 when users already exist', async () => {

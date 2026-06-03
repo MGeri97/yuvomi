@@ -178,16 +178,24 @@ app.use('/api/', apiLimiter);
 // --------------------------------------------------------
 app.use('/api/v1/auth', authRouter);
 
-// Versionsinformation - keine Authentifizierung erforderlich (Login-Seite benötigt diese)
+// Versionsinformation - keine Authentifizierung erforderlich (Login-/Setup-Seite benötigt diese)
 app.get('/api/v1/version', (req, res) => {
   let appName = DEFAULT_APP_NAME;
+  let setupRequired = false;
   try {
     const row = db.get().prepare('SELECT value FROM sync_config WHERE key = ?').get('app_name');
     if (row?.value) appName = row.value;
   } catch {
     // fall back to default
   }
-  res.json({ version: APP_VERSION, app_name: appName });
+  try {
+    const { count } = db.get().prepare('SELECT COUNT(*) AS count FROM users').get();
+    setupRequired = count === 0;
+  } catch {
+    // Fail-safe: bei DB-Fehler kein Setup erzwingen
+    setupRequired = false;
+  }
+  res.json({ version: APP_VERSION, app_name: appName, setup_required: setupRequired });
 });
 
 app.get('/manifest.webmanifest', apiLimiter, (req, res) => {
