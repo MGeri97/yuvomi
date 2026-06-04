@@ -30,10 +30,10 @@ COPY --from=build /app/node_modules ./node_modules
 # Anwendungscode (docs/ wird via .dockerignore ausgeschlossen)
 COPY . .
 
-# Daten-Volume-Verzeichnis anlegen (Permissions werden zur Laufzeit gesetzt)
-RUN mkdir -p /data
+# Daten-Volume-Verzeichnisse anlegen (Permissions werden zur Laufzeit gesetzt)
+RUN mkdir -p /data /backups /app/modules
 
-# Entrypoint: korrigiert /data-Permissions und startet als node-User
+# Entrypoint: korrigiert Volume-Permissions und startet als node-User
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
