@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.62.0] - 2026-06-05
+
+### Added
+- Sync and display **multiple Google calendars** at once (#237). After connecting Google, admins enable each available calendar individually via checkboxes in Settings → Synchronization; enabled calendars are imported together, each in its own color and with its own incremental sync token. Disabling a calendar removes its imported events and clears its token, so re-enabling performs a clean full resync. An automatic migration carries any previously single-selected Google calendar into the new model, so existing installs keep syncing without reconfiguration.
+
+### Changed
+- The event dialog now has a single unified **sync target** picker that lists the enabled Google and CalDAV calendars plus "Local only", replacing the CalDAV-only target dropdown (#237). Outbound sync to Google is now per-event: a local event is pushed to Google only when an explicit Google calendar target is selected — events without a target stay local. This changes the previous behaviour where new events were auto-uploaded to the single configured calendar. The global Google read-only mode still overrides any per-event target.
+
+### Removed
+- The single-calendar `PUT /api/v1/calendar/google/calendar` endpoint, replaced by `PATCH /api/v1/calendar/google/calendars` for enabling/disabling individual calendars (#237).
+
 ## [0.61.1] - 2026-06-05
 
 ### Fixed
