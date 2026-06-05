@@ -1605,6 +1605,13 @@
         "area": "Na zewnątrz"
       }
     },
+    "rateType": "Typ rozliczenia",
+    "rateDaily": "Stawka dzienna",
+    "rateHourly": "Stawka godzinowa",
+    "hourlyRate": "Stawka godzinowa",
+    "minutesWorked": "Przepracowane minuty",
+    "hoursWorked": "Przepracowane godziny",
+    "computedAmount": "Obliczona kwota",
     "setupProfileAction": "Utwórz profil"
   },
   "splitExpenses": {

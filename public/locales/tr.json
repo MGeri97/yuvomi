@@ -1601,6 +1601,13 @@
         "area": "Dış alan"
       }
     },
+    "rateType": "Faturalama türü",
+    "rateDaily": "Günlük ücret",
+    "rateHourly": "Saatlik ücret",
+    "hourlyRate": "Saatlik ücret",
+    "minutesWorked": "Çalışılan dakika",
+    "hoursWorked": "Çalışılan saat",
+    "computedAmount": "Hesaplanan tutar",
     "setupProfileAction": "Profil oluştur"
   },
   "userMultiSelect": {

@@ -1601,6 +1601,13 @@
         "area": "Улица"
       }
     },
+    "rateType": "Тип расчёта",
+    "rateDaily": "Дневная ставка",
+    "rateHourly": "Почасовая ставка",
+    "hourlyRate": "Почасовая ставка",
+    "minutesWorked": "Отработанные минуты",
+    "hoursWorked": "Отработанные часы",
+    "computedAmount": "Рассчитанная сумма",
     "setupProfileAction": "Создать профиль"
   },
   "userMultiSelect": {

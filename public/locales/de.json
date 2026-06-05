@@ -1605,6 +1605,13 @@
         "area": "Außenbereich"
       }
     },
+    "rateType": "Abrechnungsart",
+    "rateDaily": "Tagessatz",
+    "rateHourly": "Stundensatz",
+    "hourlyRate": "Stundensatz",
+    "minutesWorked": "Arbeitszeit (Min.)",
+    "hoursWorked": "Arbeitszeit",
+    "computedAmount": "Berechneter Betrag",
     "setupProfileAction": "Profil anlegen"
   },
   "splitExpenses": {

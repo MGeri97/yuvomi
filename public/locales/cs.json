@@ -1420,6 +1420,13 @@
         "area": "Venkovní prostory"
       }
     },
+    "rateType": "Typ fakturace",
+    "rateDaily": "Denní sazba",
+    "rateHourly": "Hodinová sazba",
+    "hourlyRate": "Hodinová sazba",
+    "minutesWorked": "Pracovní minuty",
+    "hoursWorked": "Pracovní hodiny",
+    "computedAmount": "Vypočtená částka",
     "setupProfileAction": "Vytvořit profil"
   },
   "splitExpenses": {

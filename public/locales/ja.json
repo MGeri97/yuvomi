@@ -1601,6 +1601,13 @@
         "area": "屋外"
       }
     },
+    "rateType": "請求タイプ",
+    "rateDaily": "日額",
+    "rateHourly": "時給",
+    "hourlyRate": "時給",
+    "minutesWorked": "作業時間（分）",
+    "hoursWorked": "作業時間",
+    "computedAmount": "計算金額",
     "setupProfileAction": "プロフィールを作成"
   },
   "userMultiSelect": {

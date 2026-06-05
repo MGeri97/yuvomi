@@ -188,11 +188,11 @@ async function toggleSession(container, workerId) {
     } else {
       await api.post('/housekeeping/work-sessions/check-in', {
         worker_id: worker.id,
-        daily_rate: worker.daily_rate || 0,
+        daily_rate: worker.rate_type === 'hourly' ? 0 : (worker.daily_rate || 0),
         extras: 0,
         local_date: localDate(),
         timezone_offset_minutes: new Date().getTimezoneOffset(),
-        ...visitTextPayload(worker, localDate(), worker.daily_rate || 0, 0),
+        ...visitTextPayload(worker, localDate(), worker.rate_type === 'hourly' ? 0 : (worker.daily_rate || 0), 0),
       });
       window.oikos?.showToast(t('housekeeping.checkedInToast'), 'success');
     }
@@ -229,7 +229,7 @@ function renderWorkerSummary() {
       </div>
       <div>
         <strong>${esc(worker.display_name)}</strong>
-        <span>${esc(checkedIn ? `${t('housekeeping.visitRecordedAt')} ${formatTime(session.check_in)}` : `${money(worker.daily_rate)} · ${scheduleLabel(worker.payment_schedule)}`)}</span>
+        <span>${esc(checkedIn ? `${t('housekeeping.visitRecordedAt')} ${formatTime(session.check_in)}` : (worker.rate_type === 'hourly' ? `${money(worker.hourly_rate)}/${t('housekeeping.rateHourly')}` : `${money(worker.daily_rate)} · ${scheduleLabel(worker.payment_schedule)}`))}</span>
       </div>
       <button class="btn ${checkedIn ? 'btn--secondary' : 'btn--primary'} housekeeping-check-small" type="button"
               data-worker-check="${worker.id}" ${checkedIn ? 'disabled' : ''}>
@@ -801,10 +801,21 @@ function openVisitEditModal(visit, content, { onDone } = {}) {
           <input name="date" type="date" required value="${esc(visit.check_in.slice(0, 10))}">
         </label>
         <div class="housekeeping-form-grid">
-          <label class="housekeeping-field">
-            <span>${esc(t('housekeeping.dailyRate'))}</span>
-            <input name="daily_rate" type="number" min="0" step="0.01" inputmode="decimal" value="${esc(visit.daily_rate ?? 0)}">
-          </label>
+          ${visit.rate_type === 'hourly' ? `
+            <label class="housekeeping-field">
+              <span>${esc(t('housekeeping.minutesWorked'))}</span>
+              <input name="minutes_worked" type="number" min="0" step="1" inputmode="numeric" id="hk-visit-minutes" value="${esc(visit.minutes_worked ?? 0)}">
+            </label>
+            <label class="housekeeping-field">
+              <span>${esc(t('housekeeping.computedAmount'))}</span>
+              <output id="hk-visit-computed">${esc(money(visit.daily_rate ?? 0))}</output>
+            </label>
+          ` : `
+            <label class="housekeeping-field">
+              <span>${esc(t('housekeeping.dailyRate'))}</span>
+              <input name="daily_rate" type="number" min="0" step="0.01" inputmode="decimal" value="${esc(visit.daily_rate ?? 0)}">
+            </label>
+          `}
           <label class="housekeeping-field">
             <span>${esc(t('housekeeping.extras'))}</span>
             <input name="extras" type="number" min="0" step="0.01" inputmode="decimal" value="${esc(visit.extras ?? 0)}">
@@ -833,7 +844,12 @@ function openVisitEditModal(visit, content, { onDone } = {}) {
         const form = event.currentTarget;
         const fields = form.elements;
         const dateValue = fields.date.value;
-        const dailyRate = Number(fields.daily_rate.value || 0);
+        const minutesWorked = visit.rate_type === 'hourly'
+          ? Number(fields.minutes_worked?.value || 0)
+          : null;
+        const dailyRate = visit.rate_type === 'hourly'
+          ? null
+          : Number(fields.daily_rate.value || 0);
         const extras = Number(fields.extras.value || 0);
         let receiptDocumentId = visit.receipt_document_id || null;
         try {
@@ -861,10 +877,12 @@ function openVisitEditModal(visit, content, { onDone } = {}) {
           }
           await api.put(`/housekeeping/visits/${visit.id}`, {
             date: dateValue,
-            daily_rate: dailyRate,
+            ...(visit.rate_type === 'hourly'
+              ? { minutes_worked: minutesWorked }
+              : { daily_rate: dailyRate }),
             extras,
             receipt_document_id: receiptDocumentId,
-            ...visitTextPayload(worker, dateValue, dailyRate, extras),
+            ...visitTextPayload(worker, dateValue, dailyRate ?? visit.daily_rate, extras),
           });
           window.oikos?.showToast(t('housekeeping.visitSavedToast'), 'success');
           await loadData();
@@ -879,6 +897,20 @@ function openVisitEditModal(visit, content, { onDone } = {}) {
     },
   });
   const panel = document.querySelector('.modal-panel');
+  if (visit.rate_type === 'hourly') {
+    const minutesInput = panel?.querySelector('#hk-visit-minutes');
+    const computedOutput = panel?.querySelector('#hk-visit-computed');
+    function updateComputed() {
+      if (!minutesInput || !computedOutput) return;
+      const mins = Math.max(0, Number(minutesInput.value) || 0);
+      const rounded = Math.round(mins / 15) * 15;
+      const amount = (rounded / 60) * (Number(visit.hourly_rate) || 0);
+      const fmt = new Intl.NumberFormat(getLocale(), { style: 'currency', currency: state.currency || 'EUR' });
+      computedOutput.textContent = fmt.format(amount);
+    }
+    minutesInput?.addEventListener('input', updateComputed);
+    updateComputed();
+  }
   const receiptInput = panel?.querySelector('#housekeeping-receipt-file');
   const receiptSelected = panel?.querySelector('#housekeeping-receipt-selected');
   receiptInput?.addEventListener('change', () => {
@@ -932,8 +964,19 @@ function openStaffModal(worker, content, options = {}) {
             <input name="birth_date" type="date" value="${esc(item.birth_date || '')}">
           </label>
           <label class="housekeeping-field">
+            <span>${esc(t('housekeeping.rateType'))}</span>
+            <select name="rate_type">
+              <option value="daily"${(!item.rate_type || item.rate_type === 'daily') ? ' selected' : ''}>${esc(t('housekeeping.rateDaily'))}</option>
+              <option value="hourly"${item.rate_type === 'hourly' ? ' selected' : ''}>${esc(t('housekeeping.rateHourly'))}</option>
+            </select>
+          </label>
+          <label class="housekeeping-field" id="housekeeping-field-daily-rate">
             <span>${esc(t('housekeeping.dailyRate'))}</span>
             <input name="daily_rate" type="number" min="0" step="0.01" inputmode="decimal" value="${esc(item.daily_rate ?? 0)}">
+          </label>
+          <label class="housekeeping-field" id="housekeeping-field-hourly-rate"${(!item.rate_type || item.rate_type === 'daily') ? ' hidden' : ''}>
+            <span>${esc(t('housekeeping.hourlyRate'))}</span>
+            <input name="hourly_rate" type="number" min="0" step="0.01" inputmode="decimal" value="${esc(item.hourly_rate ?? 0)}">
           </label>
           <label class="housekeeping-field housekeeping-field--color">
             <span>${esc(t('housekeeping.calendarColor'))}</span>
@@ -976,6 +1019,8 @@ function openStaffModal(worker, content, options = {}) {
             email: fields.email.value.trim() || null,
             birth_date: fields.birth_date.value || null,
             daily_rate: Number(fields.daily_rate.value || 0),
+            rate_type: fields.rate_type.value,
+            hourly_rate: Number(fields.hourly_rate?.value || 0),
             payment_schedule: fields.payment_schedule.value,
             calendar_color: fields.calendar_color.value,
             avatar_color: fields.avatar_color.value,
@@ -995,6 +1040,18 @@ function openStaffModal(worker, content, options = {}) {
   });
 
   const panel = document.querySelector('.modal-panel');
+
+  // Wire rate_type toggle to show/hide daily/hourly rate fields
+  const rateTypeSelect = panel?.querySelector('[name="rate_type"]');
+  const dailyRateField = panel?.querySelector('#housekeeping-field-daily-rate');
+  const hourlyRateField = panel?.querySelector('#housekeeping-field-hourly-rate');
+  function updateRateFields() {
+    const isHourly = rateTypeSelect?.value === 'hourly';
+    if (dailyRateField) dailyRateField.hidden = isHourly;
+    if (hourlyRateField) hourlyRateField.hidden = !isHourly;
+  }
+  rateTypeSelect?.addEventListener('change', updateRateFields);
+
   const avatarFile = panel?.querySelector('#housekeeping-avatar-file');
   const avatarButton = panel?.querySelector('#housekeeping-avatar-btn');
   avatarButton?.addEventListener('click', () => avatarFile?.click());

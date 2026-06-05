@@ -1601,6 +1601,13 @@
         "area": "Área externa"
       }
     },
+    "rateType": "Tipo de cobrança",
+    "rateDaily": "Tarifa diária",
+    "rateHourly": "Tarifa por hora",
+    "hourlyRate": "Tarifa por hora",
+    "minutesWorked": "Minutos trabalhados",
+    "hoursWorked": "Horas trabalhadas",
+    "computedAmount": "Valor calculado",
     "setupProfileAction": "Criar perfil"
   },
   "userMultiSelect": {

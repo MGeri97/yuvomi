@@ -1601,6 +1601,13 @@
         "area": "Εξωτερικός χώρος"
       }
     },
+    "rateType": "Τύπος χρέωσης",
+    "rateDaily": "Ημερήσιο ποσό",
+    "rateHourly": "Ωριαία χρέωση",
+    "hourlyRate": "Ωριαία χρέωση",
+    "minutesWorked": "Λεπτά εργασίας",
+    "hoursWorked": "Ώρες εργασίας",
+    "computedAmount": "Υπολογισμένο ποσό",
     "setupProfileAction": "Δημιουργία προφίλ"
   },
   "userMultiSelect": {

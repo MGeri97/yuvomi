@@ -1601,6 +1601,13 @@
         "area": "Buiten"
       }
     },
+    "rateType": "Facturatietype",
+    "rateDaily": "Dagtarief",
+    "rateHourly": "Uurtarief",
+    "hourlyRate": "Uurtarief",
+    "minutesWorked": "Gewerkte minuten",
+    "hoursWorked": "Gewerkte uren",
+    "computedAmount": "Berekend bedrag",
     "setupProfileAction": "Profiel aanmaken"
   },
   "userMultiSelect": {

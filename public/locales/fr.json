@@ -1601,6 +1601,13 @@
         "area": "Extérieur"
       }
     },
+    "rateType": "Type de facturation",
+    "rateDaily": "Tarif journalier",
+    "rateHourly": "Tarif horaire",
+    "hourlyRate": "Tarif horaire",
+    "minutesWorked": "Minutes travaillées",
+    "hoursWorked": "Heures travaillées",
+    "computedAmount": "Montant calculé",
     "setupProfileAction": "Créer le profil"
   },
   "userMultiSelect": {

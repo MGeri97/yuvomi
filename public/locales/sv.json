@@ -1601,6 +1601,13 @@
         "area": "Utomhus"
       }
     },
+    "rateType": "Faktureringstyp",
+    "rateDaily": "Dagsarvode",
+    "rateHourly": "Timtaxa",
+    "hourlyRate": "Timtaxa",
+    "minutesWorked": "Arbetade minuter",
+    "hoursWorked": "Arbetade timmar",
+    "computedAmount": "Beräknat belopp",
     "setupProfileAction": "Skapa profil"
   },
   "userMultiSelect": {

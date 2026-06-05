@@ -1601,6 +1601,13 @@
         "area": "बाहरी क्षेत्र"
       }
     },
+    "rateType": "बिलिंग प्रकार",
+    "rateDaily": "दैनिक दर",
+    "rateHourly": "प्रति घंटा दर",
+    "hourlyRate": "प्रति घंटा दर",
+    "minutesWorked": "काम के मिनट",
+    "hoursWorked": "काम के घंटे",
+    "computedAmount": "गणना की गई राशि",
     "setupProfileAction": "प्रोफ़ाइल बनाएँ"
   },
   "userMultiSelect": {

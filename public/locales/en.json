@@ -1601,6 +1601,13 @@
         "area": "Outdoor"
       }
     },
+    "rateType": "Billing type",
+    "rateDaily": "Daily rate",
+    "rateHourly": "Hourly rate",
+    "hourlyRate": "Hourly rate",
+    "minutesWorked": "Minutes worked",
+    "hoursWorked": "Hours worked",
+    "computedAmount": "Computed amount",
     "setupProfileAction": "Create profile"
   },
   "userMultiSelect": {

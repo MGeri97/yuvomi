@@ -1601,6 +1601,13 @@
         "area": "الخارج"
       }
     },
+    "rateType": "نوع الفوترة",
+    "rateDaily": "الأجر اليومي",
+    "rateHourly": "الأجر بالساعة",
+    "hourlyRate": "الأجر بالساعة",
+    "minutesWorked": "دقائق العمل",
+    "hoursWorked": "ساعات العمل",
+    "computedAmount": "المبلغ المحسوب",
     "setupProfileAction": "إنشاء ملف شخصي"
   },
   "userMultiSelect": {

@@ -1601,6 +1601,13 @@
         "area": "户外"
       }
     },
+    "rateType": "计费类型",
+    "rateDaily": "日薪",
+    "rateHourly": "时薪",
+    "hourlyRate": "时薪",
+    "minutesWorked": "工作分钟数",
+    "hoursWorked": "工作小时数",
+    "computedAmount": "计算金额",
     "setupProfileAction": "创建档案"
   },
   "userMultiSelect": {

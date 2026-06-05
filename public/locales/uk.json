@@ -1601,6 +1601,13 @@
         "area": "Надворі"
       }
     },
+    "rateType": "Тип розрахунку",
+    "rateDaily": "Денна ставка",
+    "rateHourly": "Погодинна ставка",
+    "hourlyRate": "Погодинна ставка",
+    "minutesWorked": "Відпрацьовані хвилини",
+    "hoursWorked": "Відпрацьовані години",
+    "computedAmount": "Розрахована сума",
     "setupProfileAction": "Створити профіль"
   },
   "userMultiSelect": {
