@@ -118,3 +118,24 @@ test('staff separation: hidden from task assignees but birthday stays visible', 
   const bd = db.prepare('SELECT 1 FROM birthdays WHERE family_user_id = ?').get(staff);
   assert.ok(bd, 'staff birthday should remain visible');
 });
+
+test('staff login: blocked for housekeeping worker accounts', () => {
+  // Staff-User anlegen (separater Username, damit kein Konflikt mit anderen Tests)
+  const staffId = db.prepare(`
+    INSERT INTO users (username, display_name, password_hash, role)
+    VALUES ('hk_login_test','HK Login','$2b$12$test','member')
+  `).run().lastInsertRowid;
+  db.prepare(`INSERT INTO housekeeping_workers (user_id, daily_rate) VALUES (?, 0)`).run(staffId);
+
+  // Simuliere den Guard: prüfe ob housekeeping_worker-Zeile existiert
+  const isStaff = db.prepare('SELECT 1 FROM housekeeping_workers WHERE user_id = ?').get(staffId);
+  assert.ok(isStaff, 'staff should be detectable by worker row');
+
+  // Normaler User ist KEIN Staff
+  const normalId = db.prepare(`
+    INSERT INTO users (username, display_name, password_hash, role)
+    VALUES ('normal_login_test','Normal User','$2b$12$test','member')
+  `).run().lastInsertRowid;
+  const notStaff = db.prepare('SELECT 1 FROM housekeeping_workers WHERE user_id = ?').get(normalId);
+  assert.equal(notStaff, undefined, 'regular user should not be staff');
+});

@@ -484,6 +484,12 @@ router.post('/login', loginLimiter, async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials.', code: 401 });
     }
 
+    const isStaff = db.get().prepare('SELECT 1 FROM housekeeping_workers WHERE user_id = ?').get(user.id);
+    if (isStaff) {
+      log.warn('Login blocked for housekeeping staff account', { ip: req.ip, username });
+      return res.status(403).json({ error: 'This account cannot sign in.', code: 403 });
+    }
+
     try {
       await setupAuthSession(req, res, user);
       res.json({
