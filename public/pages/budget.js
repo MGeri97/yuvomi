@@ -489,7 +489,9 @@ function renderEntries() {
     const indClass  = isIncome ? 'budget-entry__indicator--income' : 'budget-entry__indicator--expenses';
     const sign      = isIncome ? '+' : '';
     const date      = formatEntryDate(e.date);
-    const recurTag  = e.is_recurring ? ' 🔁' : (e.recurrence_parent_id ? ' ↩' : '');
+    const recurTag  = e.is_recurring
+      ? ` 🔁${e.recurrence_virtual ? ' ' + t('budget.virtualBudgetBadge') : ''}`
+      : (e.recurrence_parent_id ? ' ↩' : '');
     const categoryMeta = isIncome || !e.subcategory
       ? categoryLabel(e.category)
       : `${categoryLabel(e.category)} · ${subcategoryLabel(e.subcategory)}`;
@@ -850,7 +852,14 @@ function openBudgetModal({ mode, entry = null, initialType = '' }) {
   const todayMonth = today.slice(0, 7);
 
   const isExpense  = isEdit ? entry.amount < 0 : true;
-  const absAmount  = isEdit ? Math.abs(entry.amount).toFixed(2) : '';
+  // Bei virtuellen Serien hält amount nur den Monatsanteil; im Formular den eingegebenen Periodenbetrag zeigen.
+  const editAmount = isEdit && entry.recurrence_virtual && entry.recurrence_full_amount != null
+    ? entry.recurrence_full_amount
+    : (isEdit ? entry.amount : 0);
+  const absAmount  = isEdit ? Math.abs(editAmount).toFixed(2) : '';
+  const curInterval = isEdit && entry.recurrence_interval ? entry.recurrence_interval : 'monthly';
+  const intervalOption = (val, key) =>
+    `<option value="${val}" ${curInterval === val ? 'selected' : ''}>${t(key)}</option>`;
 
   const initialCats = isExpense ? expenseCategories() : incomeCategories();
   const catOpts     = initialCats.map((c) =>
@@ -915,6 +924,21 @@ function openBudgetModal({ mode, entry = null, initialType = '' }) {
       </label>
     </div>
 
+    <div class="form-group js-entry-field" id="bm-recurrence-options" ${isEdit && entry.is_recurring ? '' : 'hidden'}>
+      <label class="form-label" for="bm-interval">${t('budget.recurringIntervalLabel')}</label>
+      <select class="form-input" id="bm-interval">
+        ${intervalOption('monthly', 'budget.intervalMonthly')}
+        ${intervalOption('half_year', 'budget.intervalHalfYear')}
+        ${intervalOption('yearly', 'budget.intervalYearly')}
+      </select>
+      <label class="toggle" style="margin-top:var(--space-3)">
+        <input type="checkbox" id="bm-virtual" ${isEdit && entry.recurrence_virtual ? 'checked' : ''}>
+        <span class="toggle__track"></span>
+        <span>${t('budget.virtualBudgetLabel')}</span>
+      </label>
+      <p style="color:var(--color-text-secondary);font-size:var(--text-sm);margin-top:var(--space-1)">${t('budget.virtualBudgetHint')}</p>
+    </div>
+
     <div id="bm-loan-fields" hidden>
       <div class="form-group">
         <label class="form-label" for="lm-borrower">${t('budget.loanBorrowerLabel')}</label>
@@ -970,6 +994,10 @@ function openBudgetModal({ mode, entry = null, initialType = '' }) {
         panel.querySelector('#type-loan')?.classList.toggle('amount-type-btn--active', type === 'loan');
         panel.querySelectorAll('.js-entry-field').forEach((el) => { el.hidden = type === 'loan'; });
         panel.querySelector('#bm-loan-fields').hidden = type !== 'loan';
+        // Wiederkehrungs-Optionen nur zeigen, wenn "Wiederkehrend" aktiv ist.
+        if (type !== 'loan') {
+          panel.querySelector('#bm-recurrence-options').hidden = !panel.querySelector('#bm-recurring').checked;
+        }
         panel.querySelector('#bm-save').textContent = type === 'loan'
           ? t('budget.createLoan')
           : (isEdit ? t('common.save') : t('common.add'));
@@ -1060,6 +1088,9 @@ function openBudgetModal({ mode, entry = null, initialType = '' }) {
         setType('loan');
       });
       panel.querySelector('#bm-category').addEventListener('change', () => updateSubcategoryOptions());
+      panel.querySelector('#bm-recurring').addEventListener('change', (e) => {
+        panel.querySelector('#bm-recurrence-options').hidden = !e.target.checked;
+      });
       panel.querySelector('#bm-add-category').addEventListener('click', addCategory);
       panel.querySelector('#bm-add-subcategory').addEventListener('click', addSubcategory);
       panel.querySelector('#bm-cancel').addEventListener('click', closeModal);
@@ -1082,6 +1113,8 @@ function openBudgetModal({ mode, entry = null, initialType = '' }) {
         const subcategory = currentType === 'expense' ? panel.querySelector('#bm-subcategory').value : '';
         const date       = panel.querySelector('#bm-date').value;
         const recurring  = panel.querySelector('#bm-recurring').checked ? 1 : 0;
+        const interval   = panel.querySelector('#bm-interval').value;
+        const virtual    = recurring && panel.querySelector('#bm-virtual').checked ? 1 : 0;
 
         if (!title)           { window.oikos?.showToast(t('common.titleRequired'), 'error'); return; }
         if (isNaN(absVal) || absVal <= 0) { window.oikos?.showToast(t('budget.validAmountRequired'), 'error'); return; }
@@ -1093,7 +1126,7 @@ function openBudgetModal({ mode, entry = null, initialType = '' }) {
         saveBtn.textContent = '…';
 
         try {
-          const body = { title, amount, category, subcategory, date, is_recurring: recurring };
+          const body = { title, amount, category, subcategory, date, is_recurring: recurring, recurrence_interval: interval, recurrence_virtual: virtual };
           if (mode === 'create') {
             const res = await api.post('/budget', body);
             state.entries.unshift(res.data);

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Recurring budget entries can now use an interval (monthly, half-yearly, yearly) and optional **virtual budgeting** (#240). With virtual budgeting on, a large infrequent bill is smoothed evenly across the months — e.g. a 1,200/year insurance shows as 100/month in the monthly summary, balance and CSV export instead of a single lump in one month. Without it, the full amount posts only on its due months. Existing recurring entries keep their previous behaviour (monthly, full amount).
+
 ## [0.60.11] - 2026-06-04
 
 ### Fixed

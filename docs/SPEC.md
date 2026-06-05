@@ -317,8 +317,13 @@ Index: CREATE INDEX idx_carddav_addressbook_account ON carddav_addressbook_selec
 | date | TEXT | DATE, NOT NULL |
 | is_recurring | INTEGER | 0/1 |
 | recurrence_rule | TEXT | iCal RRULE |
+| recurrence_interval | TEXT | `'monthly'` \| `'half_year'` \| `'yearly'`, default `'monthly'` |
+| recurrence_virtual | INTEGER | 0/1 — 1 = virtual budgeting (period amount smoothed evenly across months) |
+| recurrence_full_amount | REAL | For virtual series: the entered period amount (`amount` then holds the monthly share) |
 | recurrence_parent_id | INTEGER | FK → Budget Entries (generated instance points to original) |
 | created_by | INTEGER | FK → Users, NOT NULL |
+
+Recurring entries generate one instance per month on demand. Non-virtual series post the full amount only on due months (every `monthsPerInterval(interval)` months); **virtual** series store the smoothed monthly share on the original and post it every month, so a 1,200/year bill shows as 100/month in the summary, balance and CSV export.
 
 ### Budget Categories
 Expense and income category list, DB-backed with stable English slug keys. Predefined set (8 expense, 5 income); users can add custom categories inline from the entry modal.

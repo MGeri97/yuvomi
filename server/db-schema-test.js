@@ -140,6 +140,9 @@ const MIGRATIONS_SQL = {
       date            TEXT    NOT NULL,
       is_recurring    INTEGER NOT NULL DEFAULT 0,
       recurrence_rule TEXT,
+      recurrence_interval    TEXT    NOT NULL DEFAULT 'monthly',
+      recurrence_virtual     INTEGER NOT NULL DEFAULT 0,
+      recurrence_full_amount REAL,
       created_by      INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
       created_at      TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now')),
       updated_at      TEXT    NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ', 'now'))

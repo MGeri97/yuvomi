@@ -19,6 +19,7 @@
     "test:meals": "node --loader ./test/test-browser-loader.mjs --experimental-sqlite test/test-meals.js",
     "test:calendar": "node --loader ./test/test-browser-loader.mjs --experimental-sqlite test/test-calendar.js",
     "test:ncb": "node --experimental-sqlite test/test-notes-contacts-budget.js",
+    "test:budget-recurrence": "node --experimental-sqlite test/test-budget-recurrence.js",
     "test:ux-utils": "node test/test-ux-utils.js",
     "test:modal-utils": "node --loader ./test/test-browser-loader.mjs test/test-modal-utils.js",
     "test:kitchen-tabs": "node --loader ./test/test-browser-loader.mjs test/test-kitchen-tabs.js",
@@ -47,7 +48,7 @@
     "test:installer-a11y": "node --test test/test-installer-a11y.js",
     "truenas:generate": "node tools/truenas/generate.mjs",
     "test:truenas": "node --test test/test-truenas-generate.js",
-    "test": "node --experimental-sqlite test/test-db.js && node --experimental-sqlite test/test-dashboard.js && node --experimental-sqlite test/test-tasks.js && node --experimental-sqlite test/test-multi-assignment.js && node --experimental-sqlite test/test-shopping.js && npm run test:meals && npm run test:calendar && node --experimental-sqlite test/test-notes-contacts-budget.js && npm run test:ux-utils && npm run test:modal-utils && npm run test:reminders && npm run test:api && npm run test:ics-parser && npm run test:ics-sub && npm run test:setup && npm run test:kitchen-tabs && npm run test:mobile-scroll-layout && npm run test:frontend-audit && npm run test:backup-scheduler && npm run test:caldav && npm run test:caldav-reminders && npm run test:carddav && npm run test:split-expenses && npm run test:oidc && npm run test:family-contacts && npm run test:google-calendar && npm run test:installer-schema && npm run test:installer-env-write && npm run test:installer-static && npm run test:installer-i18n && npm run test:installer-cli-i18n && npm run test:installer-prereq && npm run test:installer-a11y && npm run test:truenas"
+    "test": "node --experimental-sqlite test/test-db.js && node --experimental-sqlite test/test-dashboard.js && node --experimental-sqlite test/test-tasks.js && node --experimental-sqlite test/test-multi-assignment.js && node --experimental-sqlite test/test-shopping.js && npm run test:meals && npm run test:calendar && node --experimental-sqlite test/test-notes-contacts-budget.js && npm run test:budget-recurrence && npm run test:ux-utils && npm run test:modal-utils && npm run test:reminders && npm run test:api && npm run test:ics-parser && npm run test:ics-sub && npm run test:setup && npm run test:kitchen-tabs && npm run test:mobile-scroll-layout && npm run test:frontend-audit && npm run test:backup-scheduler && npm run test:caldav && npm run test:caldav-reminders && npm run test:carddav && npm run test:split-expenses && npm run test:oidc && npm run test:family-contacts && npm run test:google-calendar && npm run test:installer-schema && npm run test:installer-env-write && npm run test:installer-static && npm run test:installer-i18n && npm run test:installer-cli-i18n && npm run test:installer-prereq && npm run test:installer-a11y && npm run test:truenas"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

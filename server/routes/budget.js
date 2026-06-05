@@ -103,12 +103,29 @@ function localizedSubcategory(subcategory, lang) {
 }
 
 // --------------------------------------------------------
-// Wiederkehrende Einträge: fehlende Instanzen für einen Monat erzeugen
+// Wiederkehrende Einträge: Intervalle + virtuelles (geglättetes) Budget
 // --------------------------------------------------------
+
+const RECURRENCE_INTERVAL_KEYS = ['monthly', 'half_year', 'yearly'];
+
+/** Anzahl Monate zwischen zwei Vorkommen einer Serie. */
+function monthsPerInterval(interval) {
+  return interval === 'yearly' ? 12 : interval === 'half_year' ? 6 : 1;
+}
+
+/** Effektiver Monatsanteil eines Periodenbetrags (für virtuelles Budget). */
+function effectiveMonthly(amount, interval) {
+  return cents(Number(amount || 0) / monthsPerInterval(interval));
+}
 
 /**
  * Erstellt fehlende Instanzen wiederkehrender Budget-Einträge für den angefragten Monat.
  * Läuft idempotent - bereits vorhandene oder explizit übersprungene Instanzen werden ignoriert.
+ *
+ * Virtuelle Serien (recurrence_virtual = 1) halten im Original bereits den
+ * geglätteten Monatsanteil (amount); es wird in JEDEM Monat eine Instanz erzeugt.
+ * Nicht-virtuelle Serien erzeugen den vollen Betrag nur in Fälligkeitsmonaten
+ * (alle monthsPerInterval(interval) Monate ab dem Startmonat).
  * @param {import('better-sqlite3').Database} database
  * @param {string} month  YYYY-MM
  */
@@ -137,6 +154,14 @@ function generateRecurringInstances(database, month) {
       WHERE recurrence_parent_id = ? AND date BETWEEN ? AND ?
     `).get(orig.id, monthStart, monthEnd);
     if (existing) continue;
+
+    // Bei nicht-virtuellen Serien nur in Fälligkeitsmonaten erzeugen.
+    const interval = orig.recurrence_interval || 'monthly';
+    if (!orig.recurrence_virtual) {
+      const [oy, om] = orig.date.split('-').map(Number);
+      const monthsDiff = (y - oy) * 12 + (m - om);
+      if (monthsDiff < 1 || monthsDiff % monthsPerInterval(interval) !== 0) continue;
+    }
 
     // Datum berechnen: gleicher Tag, am letzten Tag des Monats gekappt
     const origDay    = parseInt(orig.date.split('-')[2], 10);
@@ -843,19 +868,31 @@ router.post('/', (req, res) => {
     const vCat    = oneOf(req.body.category || fallbackCategory, validCategoryKeys(), 'Kategorie');
     const vDate   = validateDate(req.body.date,   'Datum',  true);
     const vRrule  = rrule(req.body.recurrence_rule, 'Wiederholung');
-    const errors  = collectErrors([vTitle, vAmount, vCat, vDate, vRrule]);
+    const vInterval = oneOf(req.body.recurrence_interval || 'monthly', RECURRENCE_INTERVAL_KEYS, 'Intervall');
+    const errors  = collectErrors([vTitle, vAmount, vCat, vDate, vRrule, vInterval]);
     if (errors.length) return res.status(400).json({ error: errors.join(' '), code: 400 });
     const subcategory = validateSubcategory(vCat.value, req.body.subcategory);
     if (subcategory === null) {
       return res.status(400).json({ error: 'Invalid subcategory.', code: 400 });
     }
 
+    // Intervall + virtuelles Budget nur für wiederkehrende Einträge.
+    const isRecurring = req.body.is_recurring ? 1 : 0;
+    const interval    = isRecurring ? vInterval.value : 'monthly';
+    const isVirtual   = isRecurring && req.body.recurrence_virtual ? 1 : 0;
+    // Virtuell: amount hält den geglätteten Monatsanteil, full den eingegebenen Periodenbetrag.
+    const storeAmount = isVirtual ? effectiveMonthly(vAmount.value, interval) : vAmount.value;
+    const fullAmount  = isVirtual ? cents(vAmount.value) : null;
+
     const result = db.get().prepare(`
-      INSERT INTO budget_entries (title, amount, category, subcategory, date, is_recurring, recurrence_rule, created_by)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO budget_entries
+        (title, amount, category, subcategory, date, is_recurring, recurrence_rule,
+         recurrence_interval, recurrence_virtual, recurrence_full_amount, created_by)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
-      vTitle.value, vAmount.value, vCat.value || fallbackCategory, subcategory, vDate.value,
-      req.body.is_recurring ? 1 : 0, vRrule.value,
+      vTitle.value, storeAmount, vCat.value || fallbackCategory, subcategory, vDate.value,
+      isRecurring, vRrule.value,
+      interval, isVirtual, fullAmount,
       req.session.userId
     );
 
@@ -886,6 +923,7 @@ router.put('/:id', (req, res) => {
     if (req.body.category !== undefined) checks.push(oneOf(req.body.category, validCategoryKeys(), 'Kategorie'));
     if (req.body.date     !== undefined) checks.push(validateDate(req.body.date,    'Datum'));
     if (req.body.recurrence_rule !== undefined) checks.push(rrule(req.body.recurrence_rule, 'Wiederholung'));
+    if (req.body.recurrence_interval !== undefined) checks.push(oneOf(req.body.recurrence_interval, RECURRENCE_INTERVAL_KEYS, 'Intervall'));
     const errors = collectErrors(checks);
     if (errors.length) return res.status(400).json({ error: errors.join(' '), code: 400 });
     const { title, amount, category, subcategory: requestedSubcategory, date, is_recurring, recurrence_rule } = req.body;
@@ -914,25 +952,47 @@ router.put('/:id', (req, res) => {
       return res.status(400).json({ error: 'Invalid subcategory.', code: 400 });
     }
 
+    // Wiederkehrungs-Felder auflösen (Intervall + virtuelles Budget).
+    const finalRecurring = is_recurring !== undefined ? (is_recurring ? 1 : 0) : entry.is_recurring;
+    const finalInterval = req.body.recurrence_interval !== undefined
+      ? req.body.recurrence_interval
+      : (entry.recurrence_interval || 'monthly');
+    let finalVirtual = req.body.recurrence_virtual !== undefined
+      ? (req.body.recurrence_virtual ? 1 : 0)
+      : entry.recurrence_virtual;
+    if (!finalRecurring) finalVirtual = 0;
+    // Konfigurierter Periodenbetrag (vorzeichenbehaftet): neue Eingabe, sonst bisheriger Vollbetrag.
+    const configuredFull = amount !== undefined
+      ? Number(amount)
+      : (entry.recurrence_full_amount != null ? entry.recurrence_full_amount : entry.amount);
+    const nextAmount = finalVirtual ? effectiveMonthly(configuredFull, finalInterval) : cents(configuredFull);
+    const nextFull   = finalVirtual ? cents(configuredFull) : null;
+
     const tx = db.get().transaction(() => {
       db.get().prepare(`
         UPDATE budget_entries
-        SET title           = COALESCE(?, title),
-            amount          = COALESCE(?, amount),
-            category        = COALESCE(?, category),
-            subcategory     = COALESCE(?, subcategory),
-            date            = COALESCE(?, date),
-            is_recurring    = COALESCE(?, is_recurring),
-            recurrence_rule = ?
+        SET title                  = COALESCE(?, title),
+            amount                 = ?,
+            category               = COALESCE(?, category),
+            subcategory            = COALESCE(?, subcategory),
+            date                   = COALESCE(?, date),
+            is_recurring           = ?,
+            recurrence_rule        = ?,
+            recurrence_interval    = ?,
+            recurrence_virtual     = ?,
+            recurrence_full_amount = ?
         WHERE id = ?
       `).run(
         title?.trim() ?? null,
-        amount !== undefined ? Number(amount) : null,
+        nextAmount,
         category ?? null,
         subcategory !== undefined ? subcategory : null,
         date ?? null,
-        is_recurring !== undefined ? (is_recurring ? 1 : 0) : null,
+        finalRecurring,
         recurrence_rule !== undefined ? (recurrence_rule || null) : entry.recurrence_rule,
+        finalInterval,
+        finalVirtual,
+        nextFull,
         id
       );
 
@@ -1001,3 +1061,4 @@ router.delete('/:id', (req, res) => {
 });
 
 export default router;
+export { generateRecurringInstances, monthsPerInterval, effectiveMonthly, RECURRENCE_INTERVAL_KEYS };
