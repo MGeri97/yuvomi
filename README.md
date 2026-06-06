@@ -43,7 +43,7 @@ Each module is independent. Use what fits, skip what doesn't.
 |---|---|
 | **Tasks** | Shared tasks with deadlines, priorities, subtasks, recurring schedules, multi-member assignment, Kanban, and mobile-friendly bulk controls. Optional read-only import of Apple Reminders lists via CalDAV. |
 | **Shopping** | Collaborative lists organized by aisle. Touch-safe quick add, swipe gestures, and meal-plan import in one click. Optional read-only import of Apple Reminders lists via CalDAV. |
-| **Meals** | Weekly drag-and-drop planner with direct export to your shopping list. |
+| **Meals** | Weekly drag-and-drop planner with multiple items per slot, direct export to your shopping list. |
 | **Recipes** | Create, duplicate, and scale recipes. Pre-fill meal slots or save any meal as a recipe. |
 | **Calendar** | Google Calendar (OAuth) and CalDAV sync (iCloud, Nextcloud, Radicale). ICS subscriptions, recurring events, file attachments, and readable month/agenda views. |
 | **Documents** | Upload and organize family files. Folders, tags, per-document visibility, drag-and-drop. |
