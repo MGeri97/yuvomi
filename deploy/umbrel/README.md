@@ -12,7 +12,7 @@ that with our own workflow.
 ## Releases are automated
 
 `.github/workflows/umbrel-publish.yml` runs on `release: published`. It resolves
-the new multi-arch index digest and opens/updates a single rolling `oikos-update`
+the new multi-arch index digest and opens/updates a single rolling `yuvomi-update`
 PR to `getumbrel/umbrel-apps`, editing the maintainers' upstream files **in
 place** (`version`, `releaseNotes` from the release body, `@sha256` image digest)
 so any review tweaks (port, gallery, category) are preserved. It needs the
@@ -63,9 +63,9 @@ merged** via a temporary Community App Store:
 
 1. Create a throwaway public git repo with this layout:
    ```
-   umbrel-app-store.yml      # id: oikos-test, name: Yuvomi Test
-   oikos/umbrel-app.yml      # copy of this folder's manifest
-   oikos/docker-compose.yml  # copy of this folder's compose
+   umbrel-app-store.yml       # id: yuvomi-test, name: Yuvomi Test
+   yuvomi/umbrel-app.yml      # copy of this folder's manifest
+   yuvomi/docker-compose.yml  # copy of this folder's compose
    ```
 2. In umbrelOS → App Store → "Community App Stores", add the repo URL.
 3. Install Yuvomi, create the first account, then **restart the app** and confirm the

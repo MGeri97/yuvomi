@@ -1,8 +1,8 @@
 manifestVersion: 1
-id: oikos
+id: yuvomi
 category: files
 name: Yuvomi
-version: "0.65.1"
+version: "0.66.0"
 tagline: Self-hosted family planner — calendar, tasks, shopping, meals & budget
 description: >-
   Yuvomi is a self-hosted, privacy-focused family planner that bundles everything
@@ -52,10 +52,10 @@ description: >-
   account becomes the family admin and can invite the rest of the household.
 releaseNotes: ""
 developer: Ulas Kalayci
-website: https://github.com/ulsklyc/oikos
+website: https://github.com/ulsklyc/yuvomi
 dependencies: []
-repo: https://github.com/ulsklyc/oikos
-support: https://github.com/ulsklyc/oikos/issues
+repo: https://github.com/ulsklyc/yuvomi
+support: https://github.com/ulsklyc/yuvomi/issues
 port: 8181
 # Must stay empty for submission — the Umbrel team populates icon/gallery from
 # the assets in umbrel-apps-gallery (see deploy/umbrel/icon.svg + gallery/).
