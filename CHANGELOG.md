@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.65.32] - 2026-06-08
+
+### Fixed
+- The `rrule()` validator now uses the full anchored `RRULE_RE` pattern instead of an unanchored prefix check, preventing malformed rules like `FREQ=YEARLYX` or `FREQ=YEARLY;INTERVAL=abc` from passing validation.
+
 ## [0.65.31] - 2026-06-08
 
 ### Fixed
