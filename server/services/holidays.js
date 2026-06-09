@@ -6,7 +6,7 @@
  * Abhängigkeiten: node-fetch, server/db.js
  */
 
-import fetch from 'node-fetch';
+import nodeFetch from 'node-fetch';
 import { createLogger } from '../logger.js';
 import * as db from '../db.js';
 
@@ -17,6 +17,11 @@ const FETCH_TIMEOUT_MS  = 15_000;
 const SYNC_YEARS_BACK   = 1;
 const SYNC_YEARS_AHEAD  = 2;
 
+// Injizierbare fetch-Implementierung (Default: node-fetch). Nur Tests
+// überschreiben dies via __setFetchImpl, um die OpenHolidays-API zu mocken.
+let fetchImpl = nodeFetch;
+function __setFetchImpl(fn) { fetchImpl = fn ?? nodeFetch; }
+
 // --------------------------------------------------------
 // API-Abfragen
 // --------------------------------------------------------
@@ -25,7 +30,7 @@ async function apiFetch(path) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
-    const res = await fetch(`${BASE_URL}${path}`, {
+    const res = await fetchImpl(`${BASE_URL}${path}`, {
       signal: controller.signal,
       headers: { Accept: 'application/json' },
     });
@@ -206,4 +211,4 @@ function getForRange(from, to) {
   }));
 }
 
-export { sync, getCountries, getSubdivisions, getForRange };
+export { sync, getCountries, getSubdivisions, getForRange, __setFetchImpl };
