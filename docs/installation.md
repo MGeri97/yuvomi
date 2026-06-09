@@ -372,6 +372,8 @@ Click **Apply**. Once the container is running, click the Yuvomi icon → **WebU
 
 All configuration happens in the `.env` file. The container reads these values on startup.
 
+> **Self-hosting under the GDPR?** Several optional integrations below (weather, Google/OIDC SSO, WebDAV backup) can send data to third parties, some outside the EU/EEA. See [Privacy for self-hosters](PRIVACY-FOR-SELFHOSTERS.md) for per-service third-country assessments, data-processing-agreement notes and log-retention guidance before enabling them.
+
 ### Server
 
 | Variable | Description | Default | Required |

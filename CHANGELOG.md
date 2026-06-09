@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.67.4] - 2026-06-09
+
+### Added
+- Privacy guide for self-hosters (`docs/PRIVACY-FOR-SELFHOSTERS.md`): per-service third-country assessments for every external integration (Open-Meteo/OpenWeatherMap weather, CalDAV/CardDAV sync, OIDC single sign-on, WebDAV backup), data-processing-agreement notes, GDPR log-retention guidance, a household-exemption explainer, and a records-of-processing template. Linked from the README, the installation guide, and `.env.example`.
+
 ## [0.67.3] - 2026-06-09
 
 ### Added
