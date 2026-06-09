@@ -23,12 +23,24 @@ let scheduledTask = null;
 let lastBackup = null;
 let lastError = null;
 
+// New backups use the `yuvomi-` prefix; pre-rebrand files use `oikos-`.
+// Both are still recognised for listing/rotation so legacy backups are not
+// orphaned (never rotated, invisible to the UI) after the rename.
+const BACKUP_FILE_PREFIX = 'yuvomi-backup-';
+const LEGACY_FILE_PREFIX = 'oikos-backup-';
+
+/** Whether a filename is a backup file (new or legacy naming). */
+function isBackupFile(name) {
+  return (name.startsWith(BACKUP_FILE_PREFIX) || name.startsWith(LEGACY_FILE_PREFIX))
+    && name.endsWith('.db');
+}
+
 /**
  * Generate timestamped backup filename
  */
 function backupFileName() {
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-  return `oikos-backup-${stamp}.db`;
+  return `${BACKUP_FILE_PREFIX}${stamp}.db`;
 }
 
 /**
@@ -49,7 +61,7 @@ async function ensureBackupDir() {
 async function getBackupFiles() {
   try {
     const files = await fs.readdir(BACKUP_DIR);
-    const backupFiles = files.filter((f) => f.startsWith('oikos-backup-') && f.endsWith('.db'));
+    const backupFiles = files.filter(isBackupFile);
 
     // Get file stats and sort by modification time
     const filesWithStats = await Promise.all(

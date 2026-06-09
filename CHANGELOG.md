@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.66.6] - 2026-06-09
+
+### Fixed
+- Backup files are now named `yuvomi-backup-<timestamp>.db` instead of the pre-rebrand `oikos-backup-…`. This applies to scheduled backups, the WebDAV "Upload now" snapshot, and the admin database download. Existing `oikos-backup-…` files (local and on WebDAV) continue to be listed and rotated, so older backups are not orphaned after the rename.
+
 ## [0.66.5] - 2026-06-09
 
 ### Fixed

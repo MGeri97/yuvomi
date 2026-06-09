@@ -20,7 +20,7 @@ const RESTORE_LIMIT = process.env.BACKUP_UPLOAD_LIMIT || '100mb';
 
 function backupFileName() {
   const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-  return `oikos-backup-${stamp}.db`;
+  return `yuvomi-backup-${stamp}.db`;
 }
 
 router.get('/status', requireAdmin, (req, res) => {
@@ -37,7 +37,7 @@ router.get('/status', requireAdmin, (req, res) => {
 router.get('/database', requireAdmin, async (req, res) => {
   let tmpPath = null;
   try {
-    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'oikos-backup-'));
+    const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'yuvomi-backup-'));
     tmpPath = path.join(dir, backupFileName());
     await backupToFile(tmpPath);
 
@@ -68,7 +68,7 @@ router.post(
         return res.status(400).json({ error: 'Backup file is required.', code: 400 });
       }
 
-      dir = await fs.mkdtemp(path.join(os.tmpdir(), 'oikos-restore-'));
+      dir = await fs.mkdtemp(path.join(os.tmpdir(), 'yuvomi-restore-'));
       const uploadPath = path.join(dir, 'restore.db');
       await fs.writeFile(uploadPath, req.body);
       const result = await restoreFromFile(uploadPath);
