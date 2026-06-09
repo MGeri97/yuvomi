@@ -53,7 +53,7 @@ sync targets below and update **only** what the change actually affects.
 | `docker-compose.yml` | Port mapping, env passthrough, volumes (only when deployment behavior changed) |
 | `podman-compose.yml` | Mirror `docker-compose.yml`: port mapping, env passthrough, volumes |
 | `tools/quadlet/oikos.container` | Podman Quadlet — ports, env, volumes (mirror compose) |
-| `templates/oikos.xml` | Unraid CA template — **every** env var/port/volume is a hand-written `<Config>` (no fallback). Add/edit/remove the matching entry; mask secrets (`Mask="true"`), put optional integrations on `Display="advanced"` |
+| `templates/yuvomi.xml` | Unraid CA template — **every** env var/port/volume is a hand-written `<Config>` (no fallback). Add/edit/remove the matching entry; mask secrets (`Mask="true"`), put optional integrations on `Display="advanced"` |
 | `ca_profile.xml` | Unraid CA profile blurb — only when the app overview / module list changed |
 | `deploy/truenas/questions.yaml` + `deploy/truenas/templates/docker-compose.yaml` | TrueNAS catalog-config source. Required secrets / new ports / new volumes only — optional env vars are covered by the generic `additional_envs` list. Version bumps reach the upstream `truenas/apps` catalog automatically via the `truenasbot` Renovate bot (new ghcr image tags); config changes need a manual PR carrying these edits |
 | `tools/installer/README.md` | Installer steps, requirements, endpoints, localization, design |

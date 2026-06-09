@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.66.5] - 2026-06-09
+
+### Fixed
+- Unraid Community Applications: removed the leftover `oikos.xml` template, which carried the same `<Name>Yuvomi</Name>` (and the same `ghcr.io/ulsklyc/yuvomi` image) as the current `yuvomi.xml`. The duplicate name caused a conflict in the Community Apps feed; `yuvomi.xml` is now the single, authoritative Unraid template.
+
 ## [0.66.4] - 2026-06-09
 
 ### Fixed
