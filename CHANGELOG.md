@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.71.8] - 2026-06-11
+
+### Fixed
+- **Settings nav link**: tapping "Settings" in the mobile nav bar or the overflow sheet now opens the settings overview instead of jumping directly to the last-visited settings page.
+
 ## [0.71.7] - 2026-06-11
 
 ### Added
