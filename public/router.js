@@ -615,7 +615,29 @@ async function renderPage(route, previousPath = null) {
     _renderedModule = null;
     _renderedModuleName = null;
 
-    await module.render(pageWrapper, { user: currentUser });
+    // render() synchron starten: Der synchrone Teil (Grundgerüst + Lade-Skeleton)
+    // ist danach bereits im DOM. Den Wrapper SOFORT einblenden — so wird das
+    // Skeleton während des Daten-await des Moduls sichtbar (statt leerer Fläche;
+    // der Wrapper war zuvor bis zur vollständigen Auflösung von render() opak-0,
+    // wodurch jedes vor dem Daten-await geseedete Skeleton beim Erstladen nie
+    // erschien). Der Rest von render() (Daten + Verdrahtung) wird danach abgewartet.
+    const renderPromise = module.render(pageWrapper, { user: currentUser });
+
+    // Sichtbar machen und Einblend-Animation starten (Skeleton/Grundgerüst).
+    pageWrapper.style.opacity = '';
+    pageWrapper.classList.add(inClass);
+
+    // navigating-Klasse nach Ende der Einblend-Animation entfernen.
+    // Fallback-Timeout falls animationend nicht feuert (z.B. prefers-reduced-motion).
+    const navEndTimeout = setTimeout(() => {
+      document.documentElement.classList.remove('navigating');
+    }, 300);
+    pageWrapper.addEventListener('animationend', () => {
+      clearTimeout(navEndTimeout);
+      document.documentElement.classList.remove('navigating');
+    }, { once: true });
+
+    await renderPromise;
 
     // Ab hier kann das Modul Soft-Navigationen bedienen (sofern es update() bietet).
     _renderedModule = module;
@@ -639,20 +661,6 @@ async function renderPage(route, previousPath = null) {
       announcer.textContent = '';
       setTimeout(() => { announcer.textContent = pageLabel; }, 50);
     }
-
-    // Erst nach render() + CSS sichtbar machen und Animation starten
-    pageWrapper.style.opacity = '';
-    pageWrapper.classList.add(inClass);
-
-    // navigating-Klasse nach Ende der Einblend-Animation entfernen.
-    // Fallback-Timeout falls animationend nicht feuert (z.B. prefers-reduced-motion).
-    const navEndTimeout = setTimeout(() => {
-      document.documentElement.classList.remove('navigating');
-    }, 300);
-    pageWrapper.addEventListener('animationend', () => {
-      clearTimeout(navEndTimeout);
-      document.documentElement.classList.remove('navigating');
-    }, { once: true });
 
   } catch (err) {
     document.documentElement.classList.remove('navigating');

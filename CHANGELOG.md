@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.71.17] - 2026-06-12
+
+### Fixed
+- **Loading skeletons now appear on first navigation**: opening a page used to show a blank content area until its data finished loading, because the router only revealed a page once its `render()` (including the data fetch) had fully resolved, so any skeleton placed before that fetch never showed. The page shell and its loading skeleton now appear immediately while data loads, so every module gives feedback on slow connections instead of looking stuck.
+- **Skeleton contrast in dark mode**: skeleton placeholder lines were nearly invisible against the dark card surface. Their colour is now mixed from the surface and text colours, so they have clear, consistent contrast in both light and dark themes.
+
+### Changed
+- **Skeleton loading for the remaining list modules**: Contacts, Notes, Birthdays, Documents, Recipes, and Shared expenses now show the shared skeleton loading language while their lists load, completing the rollout so all modules use one consistent loading state.
+
 ## [0.71.16] - 2026-06-12
 
 ### Changed

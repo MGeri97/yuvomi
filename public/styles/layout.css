@@ -1641,11 +1641,14 @@ html.fab-anim-done .page-fab {
  * Skeleton-Loading
  * -------------------------------------------------------- */
 .skeleton {
+  /* Linienfarbe aus Surface + Ink gemischt: garantierter Kontrast in beiden
+   * Themes mit EINER Definition (zuvor border-subtle/surface-2 — im Dark Mode
+   * deckungsgleich mit der Kartenfläche #222220, dadurch unsichtbar). */
   background: linear-gradient(
     90deg,
-    var(--color-border-subtle) 25%,
-    var(--color-surface-2) 50%,
-    var(--color-border-subtle) 75%
+    color-mix(in srgb, var(--color-text-primary) 18%, var(--color-surface)) 25%,
+    color-mix(in srgb, var(--color-text-primary) 30%, var(--color-surface)) 50%,
+    color-mix(in srgb, var(--color-text-primary) 18%, var(--color-surface)) 75%
   );
   background-size: 200% 100%;
   animation: skeleton-shimmer 1.5s infinite;

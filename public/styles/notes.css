@@ -86,6 +86,12 @@
   column-gap: var(--space-3);
 }
 
+/* Lade-Zustand: Multi-Column aufheben, damit die geteilte Skeleton-Liste
+ * (Flex-Spalte) full-width erscheint — eine Lade-Sprache über alle Module. */
+.notes-grid[aria-busy="true"] {
+  columns: auto;
+}
+
 @container notes-page (min-width: 600px) {
   .notes-grid { columns: 3; }
 }

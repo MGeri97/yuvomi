@@ -181,6 +181,12 @@
   gap: var(--space-4);
 }
 
+/* Lade-Zustand: Grid/Flex aufheben, damit die geteilte Skeleton-Liste
+ * full-width erscheint — eine Lade-Sprache über alle Module. */
+.documents-list[aria-busy="true"] {
+  display: block;
+}
+
 .documents-list--list {
   display: flex;
   flex-direction: column;
