@@ -79,6 +79,7 @@
 }
 
 .budget-nav__today {
+  min-height: var(--target-lg);
   font-size: var(--text-sm);
   color: var(--color-accent);
   font-weight: var(--font-weight-medium);
@@ -102,7 +103,7 @@
 }
 
 .budget-tab {
-  min-height: 40px;
+  min-height: var(--target-lg);
   padding: 0 var(--space-2);
   border: 0;
   border-radius: var(--radius-xs);
@@ -267,9 +268,12 @@
 }
 
 .budget-bar-row__fill {
+  width: 100%;
   height: 100%;
   border-radius: var(--radius-full);
-  transition: width var(--transition-slow);
+  transform: scaleX(var(--bar-scale, 0));
+  transform-origin: left center;
+  transition: transform var(--transition-slow);
 }
 
 .budget-bar-row__fill--income   { background-color: var(--color-success); }
@@ -478,9 +482,25 @@
 
 .budget-loan-card__progress span {
   display: block;
+  width: 100%;
   height: 100%;
   border-radius: inherit;
   background: var(--color-success);
+  transform: scaleX(var(--bar-scale, 0));
+  transform-origin: left center;
+  transition: transform var(--transition-slow);
+}
+
+[dir='rtl'] .budget-bar-row__fill,
+[dir='rtl'] .budget-loan-card__progress span {
+  transform-origin: right center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .budget-bar-row__fill,
+  .budget-loan-card__progress span {
+    transition: none;
+  }
 }
 
 .budget-loan-card__footer {

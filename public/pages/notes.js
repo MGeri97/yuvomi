@@ -65,12 +65,15 @@ export async function render(container, { user }) {
     <div class="notes-page">
       <div class="page-toolbar notes-toolbar">
         <h1 class="page-toolbar__title">${t('notes.title')}</h1>
-        <div class="notes-toolbar__search">
-          <i data-lucide="search" class="notes-toolbar__search-icon" aria-hidden="true"></i>
-          <input type="search" id="notes-search" class="notes-toolbar__search-input"
-                 placeholder="${t('notes.searchPlaceholder')}" autocomplete="off"
-                 value="${esc(state.filterQuery)}">
-        </div>
+        <label class="notes-toolbar__search" for="notes-search">
+          <span class="notes-toolbar__search-label">${t('notes.searchPlaceholder')}</span>
+          <span class="notes-toolbar__search-control">
+            <i data-lucide="search" class="notes-toolbar__search-icon" aria-hidden="true"></i>
+            <input type="search" id="notes-search" class="notes-toolbar__search-input"
+                   placeholder="${t('notes.searchPlaceholder')}" autocomplete="off"
+                   value="${esc(state.filterQuery)}">
+          </span>
+        </label>
         <button class="btn btn--primary toolbar-new-btn" id="notes-add-btn">
           <i data-lucide="plus" style="width:16px;height:16px;margin-right:4px;" aria-hidden="true"></i>
           ${t('notes.addNoteLabel')}

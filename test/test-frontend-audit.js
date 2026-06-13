@@ -1926,6 +1926,174 @@ test('budget chart exposes a screen-reader summary (audit 1.7)', () => {
   }
 });
 
+test('search fields keep visible labels after users enter a query', () => {
+  const fields = [
+    ['../public/pages/birthdays.js', 'birthdays-search'],
+    ['../public/pages/contacts.js', 'contacts-search'],
+    ['../public/pages/notes.js', 'notes-search'],
+    ['../public/pages/documents.js', 'documents-search'],
+    ['../public/pages/split-expenses.js', 'split-group-search'],
+  ];
+
+  for (const [file, id] of fields) {
+    const source = read(file);
+    assert.match(
+      source,
+      new RegExp(`<label[^>]*for="${id}"[^>]*>[\\s\\S]*?<input[^>]*id="${id}"|<label[^>]*>[\\s\\S]*?<input[^>]*id="${id}"`),
+      `${file} must expose a persistent visible label for #${id}`,
+    );
+  }
+});
+
+test('German housekeeping visit copy contains no English fallback strings', () => {
+  const locale = JSON.parse(read('../public/locales/de.json'));
+  const expected = {
+    reports: 'Berichte',
+    visitRecordedAt: 'Einsatz erfasst um',
+    checkedInToday: 'Heute erfasst',
+    editVisit: 'Einsatz bearbeiten',
+    paymentPaid: 'Bezahlt',
+    paymentPending: 'Ausstehend',
+    filterMonth: 'Monat',
+  };
+
+  for (const [key, value] of Object.entries(expected)) {
+    assert.equal(locale.housekeeping[key], value, `housekeeping.${key} must be German`);
+  }
+
+  const housekeepingCss = read('../public/styles/housekeeping.css');
+  assert.match(
+    housekeepingCss,
+    /\.housekeeping-worker-strip__identity\s*\{[\s\S]*gap:\s*var\(--space-1\)/,
+    'housekeeper name and status need an explicit visual gap',
+  );
+});
+
+test('holiday chips derive readable ink from each configured color', () => {
+  const calendarPage = read('../public/pages/calendar.js');
+  const calendarCss = read('../public/styles/calendar.css');
+
+  assert.match(calendarPage, /import \{ getReadableTextColor \} from '\/utils\/color\.js'/);
+  assert.match(calendarPage, /--holi-ink:\$\{esc\(getReadableTextColor\(h\.color\)\)\}/);
+  for (const selector of ['.month-day__holiday', '.allday-holiday']) {
+    const body = cssRuleBody(calendarCss, selector);
+    assert.match(body, /color:\s*var\(--holi-ink,\s*var\(--color-text-on-accent\)\)/);
+    assert.doesNotMatch(body, /color:\s*#fff/);
+  }
+});
+
+test('mobile meal actions remain visible and touch-safe after the full cascade', () => {
+  const meals = read('../public/styles/meals.css');
+
+  assert.match(
+    meals,
+    /@media \(hover:\s*none\),\s*\(max-width:\s*640px\)[\s\S]*?\.meal-card__actions\s*\{[\s\S]*?opacity:\s*1/,
+  );
+  assert.match(
+    meals,
+    /@media \(hover:\s*none\),\s*\(max-width:\s*640px\)[\s\S]*?\.meal-card__action-btn\s*\{[\s\S]*?width:\s*var\(--target-lg\)[\s\S]*?height:\s*var\(--target-lg\)/,
+  );
+  assert.match(
+    meals,
+    /@media \(hover:\s*none\),\s*\(max-width:\s*640px\)[\s\S]*?\.week-nav__today,[\s\S]*?\.meal-slot__add-more-btn\s*\{[\s\S]*?min-height:\s*var\(--target-lg\)/,
+  );
+  assert.match(
+    meals,
+    /@media \(hover:\s*none\),\s*\(max-width:\s*640px\)[\s\S]*?\.meal-card__action-btn\s*\{[\s\S]*?color:\s*var\(--color-text-secondary\)/,
+  );
+});
+
+test('audited profile, birthday, navigation, and budget controls meet mobile touch targets', () => {
+  const settings = read('../public/styles/settings.css');
+  const birthdays = read('../public/styles/birthdays.css');
+  const budget = read('../public/styles/budget.css');
+  const contacts = read('../public/styles/contacts.css');
+  const housekeeping = read('../public/styles/housekeeping.css');
+
+  assert.match(settings, /\.settings-avatar-action\s*\{[\s\S]*width:\s*var\(--target-md\)[\s\S]*height:\s*var\(--target-md\)/);
+  assert.match(
+    settings,
+    /@media \(max-width:\s*640px\)[\s\S]*\.settings-avatar-action\s*\{[\s\S]*width:\s*var\(--target-lg\)[\s\S]*height:\s*var\(--target-lg\)/,
+  );
+  assert.match(settings, /\.settings-module-move\s*\{[\s\S]*width:\s*var\(--target-base\)[\s\S]*height:\s*var\(--target-base\)/);
+  assert.match(birthdays, /\.contact-action-btn\s*\{[\s\S]*width:\s*var\(--target-lg\)[\s\S]*height:\s*var\(--target-lg\)/);
+  assert.match(budget, /\.budget-tab\s*\{[\s\S]*min-height:\s*var\(--target-lg\)/);
+  assert.match(budget, /\.budget-nav__today\s*\{[\s\S]*min-height:\s*var\(--target-lg\)/);
+  assert.match(
+    contacts,
+    /@media \(max-width:\s*767px\)[\s\S]*\.contact-filter-chip\s*\{[\s\S]*min-height:\s*var\(--target-lg\)/,
+  );
+  assert.match(housekeeping, /\.housekeeping-log-action\s*\{[\s\S]*min-height:\s*var\(--target-lg\)/);
+});
+
+test('mobile contacts keep one primary action and disclose the rest through More', () => {
+  const contactsPage = read('../public/pages/contacts.js');
+  const contactsCss = read('../public/styles/contacts.css');
+
+  assert.match(contactsPage, /contact-action-btn--mail contact-action-btn--desktop-extra/);
+  assert.match(contactsPage, /contact-action-btn--mail contact-action-btn--mobile-menu/);
+  assert.match(
+    contactsCss,
+    /@media \(max-width:\s*767px\)[\s\S]*\.contact-action-btn--desktop-extra\s*\{[\s\S]*display:\s*none/,
+  );
+  assert.match(
+    contactsCss,
+    /@media \(max-width:\s*767px\)[\s\S]*\.contact-more-menu\s*\{[\s\S]*display:\s*block/,
+  );
+});
+
+test('documents and navigation settings use progressive disclosure instead of stacked control cards', () => {
+  const documentsPage = read('../public/pages/documents.js');
+  const documentsCss = read('../public/styles/documents.css');
+  const navigationPage = read('../public/settings/pages/modules-navigation.js');
+  const settingsCss = read('../public/styles/settings.css');
+
+  assert.match(documentsPage, /<details class="documents-secondary-controls"/);
+  assert.match(documentsPage, /<summary[^>]*documents-secondary-controls__trigger/);
+  assert.match(
+    documentsCss,
+    /@media \(max-width:\s*767px\)[\s\S]*\.documents-secondary-controls__panel\s*\{[\s\S]*display:\s*none/,
+  );
+  assert.match(
+    documentsCss,
+    /@media \(max-width:\s*767px\)[\s\S]*\.documents-secondary-controls\s*\{[\s\S]*position:\s*static/,
+  );
+  assert.match(
+    documentsCss,
+    /@media \(max-width:\s*767px\)[\s\S]*\.documents-secondary-controls__panel\s*\{[\s\S]*inset-inline:\s*var\(--space-4\)[\s\S]*width:\s*auto/,
+  );
+  assert.match(navigationPage, /class="settings-navigation-panel"/);
+  assert.doesNotMatch(navigationPage, /<div class="settings-card">/);
+  assert.match(settingsCss, /\.settings-navigation-panel\s*\{[\s\S]*border-bottom:\s*var\(--space-px\)\s+solid\s+var\(--color-border-subtle\)/);
+  assert.match(
+    settingsCss,
+    /@media \(max-width:\s*640px\)[\s\S]*\.settings-module-drag\s*\{[\s\S]*display:\s*none/,
+  );
+});
+
+test('birthday and navigation headings keep a sequential hierarchy', () => {
+  const birthdays = read('../public/pages/birthdays.js');
+  const navigation = read('../public/settings/pages/modules-navigation.js');
+
+  assert.match(birthdays, /<h1 class="birthdays-toolbar__title"/);
+  assert.doesNotMatch(birthdays, /<h3>/);
+  assert.match(navigation, /<h2 class="settings-navigation-panel__title"/);
+  assert.match(navigation, /<h3 class="settings-navigation-group__title"/);
+  assert.doesNotMatch(navigation, /<h4 class="settings-navigation-group__title"/);
+});
+
+test('budget bars animate with transforms instead of layout-driving widths', () => {
+  const budgetPage = read('../public/pages/budget.js');
+  const budgetCss = read('../public/styles/budget.css');
+
+  assert.doesNotMatch(budgetCss, /transition:\s*width/);
+  assert.match(budgetCss, /\.budget-bar-row__fill\s*\{[\s\S]*transform:\s*scaleX\(var\(--bar-scale,\s*0\)\)[\s\S]*transition:\s*transform/);
+  assert.match(budgetCss, /\.budget-loan-card__progress span\s*\{[\s\S]*transform:\s*scaleX\(var\(--bar-scale,\s*0\)\)/);
+  assert.match(budgetPage, /style="--bar-scale:\$\{pct\s*\/\s*100\}"/);
+  assert.match(budgetPage, /style="--bar-scale:\$\{paidPct\s*\/\s*100\}"/);
+  assert.doesNotMatch(budgetPage, /style="width:\$\{(?:pct|paidPct)\}%/);
+});
+
 test('toolbar "new" buttons are hidden via a shared class, not an ID list (audit 1.9)', () => {
   const layout = read('../public/styles/layout.css');
   assert.match(layout, /\.toolbar-new-btn\s*\{\s*display:\s*none\s*!important;/, 'expected .toolbar-new-btn rule');

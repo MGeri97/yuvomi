@@ -11,6 +11,7 @@ import { stagger } from '/utils/ux.js';
 import { t, formatDate as formatPreferredDate, formatTime, dateInputPlaceholder, formatDateInput, parseDateInput, isDateInputValid, formatTimeInput, parseTimeInput, timeInputPlaceholder } from '/i18n.js';
 import { esc, fmtLocation } from '/utils/html.js';
 import { shiftEndDateKey, isEndBeforeStart } from '/utils/date.js';
+import { getReadableTextColor } from '/utils/color.js';
 import { refresh as refreshReminders } from '/reminders.js';
 import { renderUserMultiSelect, getSelectedUserIds, bindUserMultiSelect, renderAvatarStack } from '/components/user-multi-select.js';
 
@@ -1140,7 +1141,7 @@ function renderMonthDay(date, inMonth) {
   const taskHtml = dayTasks.slice(0, MAX_TASK_SHOW).map(renderTaskChip).join('');
 
   const holHtml = dayHols.map((h) => `
-    <div class="month-day__holiday" style="--holi-color:${esc(h.color)}" title="${esc(h.name)}">
+    <div class="month-day__holiday" style="--holi-color:${esc(h.color)};--holi-ink:${esc(getReadableTextColor(h.color))}" title="${esc(h.name)}">
       <span>${esc(h.name)}</span>
     </div>
   `).join('');
@@ -1199,7 +1200,7 @@ function renderWeekView(container) {
         ${days.map((d, i) => `
           <div class="allday-cell">
             ${holidaysOnDay(d).map((h) => `
-              <div class="allday-holiday" style="--holi-color:${esc(h.color)}" title="${esc(h.name)}">
+              <div class="allday-holiday" style="--holi-color:${esc(h.color)};--holi-ink:${esc(getReadableTextColor(h.color))}" title="${esc(h.name)}">
                 <span>${esc(h.name)}</span>
               </div>
             `).join('')}
@@ -1394,7 +1395,7 @@ function renderDayView(container) {
         <div class="calendar-all-day-label">${t('calendar.allDayShort')}</div>
         <div class="allday-cell">
           ${holidaysOnDay(state.cursor).map((h) => `
-            <div class="allday-holiday" style="--holi-color:${esc(h.color)}" title="${esc(h.name)}">
+            <div class="allday-holiday" style="--holi-color:${esc(h.color)};--holi-ink:${esc(getReadableTextColor(h.color))}" title="${esc(h.name)}">
               <span>${esc(h.name)}</span>
             </div>
           `).join('')}

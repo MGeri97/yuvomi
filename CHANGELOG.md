@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.71.36] - 2026-06-13
+
+### Changed
+- **Dense mobile modules now reveal complexity progressively**: Contacts keep one primary row action with secondary actions under More, Documents collapse view and filter controls behind a bounded overflow panel, and Navigation settings use lighter sections with a sequential heading hierarchy.
+- **Mobile controls now use consistent touch-safe sizing and quieter motion**: meal actions remain visible with 48 px targets, audited profile, birthday, navigation, contact, housekeeping, and budget controls meet the same target standard, and budget bars animate with transforms instead of layout-driving widths.
+
+### Fixed
+- **Forms, housekeeping copy, and holiday chips are more accessible**: search fields retain visible labels, German housekeeping strings no longer fall back to English, worker identity spacing is restored, and custom holiday colors choose readable foreground text.
+
 ## [0.71.35] - 2026-06-13
 
 ### Fixed

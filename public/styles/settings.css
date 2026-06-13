@@ -697,8 +697,8 @@
 }
 
 .settings-avatar-action {
-  width: 28px;
-  height: 28px;
+  width: var(--target-md);
+  height: var(--target-md);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -787,6 +787,11 @@
 
   .settings-avatar-editor {
     align-items: flex-start;
+  }
+
+  .settings-avatar-action {
+    width: var(--target-lg);
+    height: var(--target-lg);
   }
 }
 
@@ -1689,6 +1694,24 @@
   margin-top: var(--space-4);
 }
 
+.settings-navigation-panel {
+  padding-block: var(--space-4) var(--space-6);
+  border-bottom: var(--space-px) solid var(--color-border-subtle);
+}
+
+.settings-navigation-panel:first-child {
+  padding-top: 0;
+}
+
+.settings-navigation-panel:last-child {
+  border-bottom: 0;
+}
+
+.settings-navigation-panel__title {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-primary);
+}
+
 .settings-mobile-nav-slot {
   display: grid;
   gap: var(--space-2);
@@ -1724,7 +1747,7 @@
 
 .settings-module-row {
   display: grid;
-  grid-template-columns: var(--target-sm) var(--target-sm) var(--target-base) minmax(0, 1fr) auto;
+  grid-template-columns: var(--target-base) var(--target-base) var(--target-base) minmax(0, 1fr) auto;
   gap: var(--space-3);
   align-items: center;
   padding: var(--space-4);
@@ -1744,8 +1767,8 @@
 .settings-module-drag {
   display: grid;
   place-items: center;
-  width: var(--target-sm);
-  height: var(--target-sm);
+  width: var(--target-base);
+  height: var(--target-base);
   border: 0;
   border-radius: var(--radius-sm);
   background: transparent;
@@ -1766,8 +1789,8 @@
 .settings-module-move {
   display: grid;
   place-items: center;
-  width: var(--target-sm);
-  height: var(--target-sm);
+  width: var(--target-base);
+  height: var(--target-base);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: var(--color-surface);
@@ -1844,12 +1867,16 @@
     grid-template-columns: 1fr;
   }
 
+  .settings-module-drag {
+    display: none;
+  }
+
   .settings-module-row {
-    grid-template-columns: var(--target-sm) var(--target-sm) var(--target-base) minmax(0, 1fr);
+    grid-template-columns: var(--target-base) var(--target-base) minmax(0, 1fr);
   }
 
   .settings-module-row__toggle {
-    grid-column: 3 / -1;
+    grid-column: 2 / -1;
   }
 
   .settings-module-row--fixed .settings-module-row__toggle {

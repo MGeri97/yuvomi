@@ -1183,7 +1183,7 @@
   padding: 1px var(--space-1);
   border-radius: var(--radius-xs);
   margin-bottom: 2px;
-  color: #fff;
+  color: var(--holi-ink, var(--color-text-on-accent));
   background: color-mix(in srgb, var(--holi-color) 90%, transparent);
   white-space: nowrap;
   overflow: hidden;
@@ -1208,7 +1208,7 @@
   font-weight: var(--font-weight-medium);
   padding: var(--space-px) var(--space-1);
   border-radius: var(--radius-xs);
-  color: #fff;
+  color: var(--holi-ink, var(--color-text-on-accent));
   background: color-mix(in srgb, var(--holi-color) 88%, transparent);
   white-space: nowrap;
   overflow: hidden;

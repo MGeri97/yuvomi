@@ -280,7 +280,7 @@ function desktopGroupHtml(section, rows) {
 
   return `
     <section class="settings-navigation-group" data-module-section="${section}">
-      <h4 class="settings-navigation-group__title">${esc(t(NAV_SECTION_LABEL_KEYS[section]))}</h4>
+      <h3 class="settings-navigation-group__title">${esc(t(NAV_SECTION_LABEL_KEYS[section]))}</h3>
       <div class="settings-modules-list settings-modules-list--sortable" data-module-list>
         ${sectionRows.map(rowHtml).join('')}
       </div>
@@ -302,19 +302,19 @@ function renderPage(container, rows, mobileOrder) {
 
   container.insertAdjacentHTML('beforeend', `
     <section class="settings-section">
-      <div class="settings-card">
-        <h3 class="settings-card__title">${t('settings.mobileNavigationTitle')}</h3>
+      <section class="settings-navigation-panel">
+        <h2 class="settings-navigation-panel__title">${t('settings.mobileNavigationTitle')}</h2>
         <p class="form-hint">${t('settings.mobileNavigationHint')}</p>
         <div class="settings-mobile-nav-slots">
           ${[0, 1, 2].map((index) => mobileSlotHtml(mobileRows, mobileOrder, index)).join('')}
         </div>
-      </div>
-      <div class="settings-card">
-        <h3 class="settings-card__title">${t('settings.desktopNavigationTitle')}</h3>
+      </section>
+      <section class="settings-navigation-panel">
+        <h2 class="settings-navigation-panel__title">${t('settings.desktopNavigationTitle')}</h2>
         <p class="form-hint">${t('settings.desktopNavigationHint')}</p>
         <p class="form-hint">${t('settings.modulesDragHint')}</p>
         ${desktopGroups}
-      </div>
+      </section>
     </section>
   `);
   window.lucide?.createIcons({ el: container });

@@ -46,6 +46,19 @@
 
 .contacts-toolbar__search {
   flex: 1;
+  display: grid;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.contacts-toolbar__search-label {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.contacts-toolbar__search-control {
+  display: block;
   position: relative;
 }
 
@@ -120,6 +133,12 @@
   background-color: var(--color-accent);
   border-color: var(--color-accent);
   color: var(--color-ink-on-vivid);
+}
+
+@media (max-width: 767px) {
+  .contact-filter-chip {
+    min-height: var(--target-lg);
+  }
 }
 
 /* --------------------------------------------------------

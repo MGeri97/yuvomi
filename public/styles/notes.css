@@ -37,11 +37,23 @@
  * margin-inline-start:auto drängt die Suche ans logische Zeilenende (ersetzt das frühere
  * justify-content:space-between des bespoke Toolbars). */
 .notes-toolbar__search {
-  position: relative;
   flex: 1 1 0;
+  display: grid;
+  gap: var(--space-1);
   max-width: 280px;
   min-width: 0;
   margin-inline-start: auto;
+}
+
+.notes-toolbar__search-label {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.notes-toolbar__search-control {
+  display: block;
+  position: relative;
 }
 
 .notes-toolbar .page-toolbar__title {

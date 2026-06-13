@@ -457,7 +457,7 @@ function renderCategoryBars(byCategory) {
       <div class="budget-bar-row">
         <div class="budget-bar-row__label" title="${esc(categoryLabel(c.category))}">${esc(categoryLabel(c.category))}</div>
         <div class="budget-bar-row__track">
-          <div class="budget-bar-row__fill ${cls}" style="width:${pct}%;"></div>
+          <div class="budget-bar-row__fill ${cls}" style="--bar-scale:${pct / 100}"></div>
         </div>
         <div class="budget-bar-row__amount" style="color:${isExpense ? 'var(--color-danger)' : 'var(--color-success)'};">
           ${formatAmount(c.total)}
@@ -797,7 +797,7 @@ function renderLoanCard(loan) {
         <span>${t('budget.loanRemainingOf', { total: formatAmount(loan.total_amount) })}</span>
       </div>
       <div class="budget-loan-card__progress" aria-label="${paidPct}%">
-        <span style="width:${paidPct}%"></span>
+        <span style="--bar-scale:${paidPct / 100}"></span>
       </div>
       <div class="budget-loan-card__footer">
         <span>${t('budget.loanNextDue', { month: nextDue })}</span>

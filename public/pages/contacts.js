@@ -62,12 +62,15 @@ export async function render(container, { user }) {
     <div class="contacts-page">
       <h1 class="sr-only">${t('contacts.title')}</h1>
       <div class="contacts-toolbar">
-        <div class="contacts-toolbar__search">
-          <i data-lucide="search" class="contacts-toolbar__search-icon" aria-hidden="true"></i>
-          <input type="search" class="contacts-toolbar__search-input"
-                 id="contacts-search" placeholder="${t('contacts.searchPlaceholder')}"
-                 autocomplete="off">
-        </div>
+        <label class="contacts-toolbar__search" for="contacts-search">
+          <span class="contacts-toolbar__search-label">${t('contacts.searchPlaceholder')}</span>
+          <span class="contacts-toolbar__search-control">
+            <i data-lucide="search" class="contacts-toolbar__search-icon" aria-hidden="true"></i>
+            <input type="search" class="contacts-toolbar__search-input"
+                   id="contacts-search" placeholder="${t('contacts.searchPlaceholder')}"
+                   autocomplete="off">
+          </span>
+        </label>
         <label class="btn btn--secondary" title="${t('contacts.importTooltip')}" aria-label="${t('contacts.importLabel')}">
           <i data-lucide="upload" style="width:16px;height:16px;margin-right:4px;" aria-hidden="true"></i>
           ${t('contacts.importButton')}
@@ -242,7 +245,8 @@ function renderList() {
 
 function renderContactItem(c) {
   const phone   = c.phone  ? `<a href="tel:${esc(c.phone)}"   class="contact-action-btn contact-action-btn--call"  aria-label="${t('contacts.callLabel')}"><i data-lucide="phone" style="width:16px;height:16px;" aria-hidden="true"></i></a>` : '';
-  const email   = c.email  ? `<a href="mailto:${esc(c.email)}" class="contact-action-btn contact-action-btn--mail"  aria-label="${t('contacts.emailActionLabel')}"><i data-lucide="mail" style="width:16px;height:16px;" aria-hidden="true"></i></a>` : '';
+  const email   = c.email  ? `<a href="mailto:${esc(c.email)}" class="contact-action-btn contact-action-btn--mail contact-action-btn--desktop-extra" aria-label="${t('contacts.emailActionLabel')}"><i data-lucide="mail" style="width:16px;height:16px;" aria-hidden="true"></i></a>` : '';
+  const mobileEmail = c.email ? `<a href="mailto:${esc(c.email)}" class="contact-action-btn contact-action-btn--mail contact-action-btn--mobile-menu" aria-label="${t('contacts.emailActionLabel')}"><i data-lucide="mail" style="width:16px;height:16px;" aria-hidden="true"></i></a>` : '';
   const maps    = c.address ? `<a href="https://maps.google.com/?q=${encodeURIComponent(c.address)}" target="_blank" rel="noopener" class="contact-action-btn contact-action-btn--maps contact-action-btn--desktop-extra" aria-label="${t('contacts.mapsLabel')}"><i data-lucide="map-pin" style="width:16px;height:16px;" aria-hidden="true"></i></a>` : '';
   const mobileMaps = c.address ? `<a href="https://maps.google.com/?q=${encodeURIComponent(c.address)}" target="_blank" rel="noopener" class="contact-action-btn contact-action-btn--maps contact-action-btn--mobile-menu" aria-label="${t('contacts.mapsLabel')}"><i data-lucide="map-pin" style="width:16px;height:16px;" aria-hidden="true"></i></a>` : '';
   const exportAction = `<a href="/api/v1/contacts/${c.id}/vcard" download="${esc(c.name)}.vcf"
@@ -283,6 +287,7 @@ function renderContactItem(c) {
             <i data-lucide="more-horizontal" style="width:16px;height:16px;" aria-hidden="true"></i>
           </summary>
           <div class="contact-more-menu__panel">
+            ${mobileEmail}
             ${mobileMaps}
             ${mobileExportAction}
             ${mobileDeleteAction}

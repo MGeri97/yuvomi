@@ -240,12 +240,11 @@ function renderPage() {
   _container.replaceChildren();
   _container.insertAdjacentHTML('beforeend', `
     <div class="birthdays-page">
-      <h1 class="sr-only">${t('birthdays.title')}</h1>
       <div class="birthdays-toolbar">
-        <div class="birthdays-toolbar__title">
+        <h1 class="birthdays-toolbar__title">
           <i data-lucide="cake" class="birthdays-toolbar__title-icon" aria-hidden="true"></i>
           <span>${t('birthdays.title')}</span>
-        </div>
+        </h1>
         <button class="btn btn--primary birthdays-header__action" id="birthdays-add-btn">
           <i data-lucide="plus" style="width:16px;height:16px;margin-right:4px;" aria-hidden="true"></i>
           ${t('birthdays.addButton')}
@@ -256,7 +255,7 @@ function renderPage() {
       <div class="birthdays-grid">
         <aside class="birthdays-panel birthdays-panel--upcoming">
           <div class="birthdays-section__header">
-            <h3>${t('birthdays.upcomingTitle')}</h3>
+            <h2>${t('birthdays.upcomingTitle')}</h2>
             <p>${t('birthdays.upcomingHint')}</p>
           </div>
           <div class="birthday-cards" id="birthdays-upcoming"></div>
@@ -264,15 +263,18 @@ function renderPage() {
 
         <section class="birthdays-panel birthdays-panel--list">
           <div class="birthdays-toolbar birthdays-toolbar--embedded">
-            <div class="birthdays-toolbar__search">
-              <i data-lucide="search" class="birthdays-toolbar__search-icon" aria-hidden="true"></i>
-              <input type="search" class="birthdays-toolbar__search-input" id="birthdays-search"
-                     placeholder="${t('birthdays.searchPlaceholder')}" autocomplete="off" value="${esc(state.query)}">
-              <div class="autocomplete-dropdown birthdays-autocomplete" id="birthdays-autocomplete" hidden></div>
-            </div>
+            <label class="birthdays-toolbar__search" for="birthdays-search">
+              <span class="birthdays-toolbar__search-label">${t('birthdays.searchPlaceholder')}</span>
+              <span class="birthdays-toolbar__search-control">
+                <i data-lucide="search" class="birthdays-toolbar__search-icon" aria-hidden="true"></i>
+                <input type="search" class="birthdays-toolbar__search-input" id="birthdays-search"
+                       placeholder="${t('birthdays.searchPlaceholder')}" autocomplete="off" value="${esc(state.query)}">
+                <div class="autocomplete-dropdown birthdays-autocomplete" id="birthdays-autocomplete" hidden></div>
+              </span>
+            </label>
           </div>
           <div class="birthdays-section__header birthdays-section__header--spaced">
-            <h3>${t('birthdays.peopleTitle')}</h3>
+            <h2>${t('birthdays.peopleTitle')}</h2>
             <p>${t('birthdays.peopleHint')}</p>
           </div>
           <div class="birthdays-list" id="birthdays-list"></div>
