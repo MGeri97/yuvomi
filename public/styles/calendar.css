@@ -69,8 +69,11 @@
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
   flex: 1;
+  min-width: 0;
   text-align: center;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cal-toolbar__today {
@@ -123,32 +126,12 @@
   color: var(--color-ink-on-vivid);
 }
 
-/* ── Mobile: kompakte Toolbar mit scrollbaren Ansichten ── */
+/* Mobiles Umbrechen kommt jetzt aus .page-toolbar--wrap (layout.css): die
+ * Datums-Navigation (.cal-toolbar__month = Center-Slot) rutscht als Gruppe auf
+ * Zeile 2, Titel + Ansichts-Umschalter bleiben auf Zeile 1. Die Ansichts-Buttons
+ * dürfen bei Enge horizontal scrollen. */
 @media (max-width: 767px) {
-  .cal-toolbar {
-    flex-wrap: wrap;
-    row-gap: var(--space-2);
-    padding-bottom: var(--space-2);
-  }
-
-  .cal-toolbar__label {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .cal-toolbar > .cal-toolbar__nav:last-child {
-    order: 4;
-  }
-
-  #cal-add {
-    display: none;
-  }
-
   .cal-toolbar__views {
-    order: 10;
-    flex-basis: 100%;
-    justify-content: flex-start;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
