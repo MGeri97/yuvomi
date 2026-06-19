@@ -129,3 +129,80 @@ test('PUT /preferences rejects non-admin weather_auto_locate change', async () =
     assert.equal(res.status, 403);
   } finally { await close(); }
 });
+
+test('GET /preferences includes weather_user with null fields by default', async () => {
+  currentRole = 'member';
+  const { baseUrl, close } = await startApp();
+  try {
+    const res = await fetch(`${baseUrl}/`);
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.ok('weather_user' in body.data, 'missing weather_user');
+    assert.deepEqual(body.data.weather_user, {
+      lat: null, lon: null, city: null, units: null, auto_locate: null,
+    });
+  } finally { await close(); }
+});
+
+test('PUT /preferences saves weather_user as non-admin (member)', async () => {
+  currentRole = 'member';
+  const { baseUrl, close } = await startApp();
+  try {
+    const res = await fetch(`${baseUrl}/`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ weather_user: { lat: '52.52', lon: '13.41', city: 'Berlin', units: 'imperial', auto_locate: true } }),
+    });
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.deepEqual(body.data.weather_user, {
+      lat: '52.52', lon: '13.41', city: 'Berlin', units: 'imperial', auto_locate: true,
+    });
+  } finally { await close(); }
+});
+
+test('PUT /preferences weather_user=null field clears the override', async () => {
+  currentRole = 'member';
+  const { baseUrl, close } = await startApp();
+  try {
+    await fetch(`${baseUrl}/`, { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ weather_user: { lat: '52.52', lon: '13.41' } }) });
+    const res = await fetch(`${baseUrl}/`, { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ weather_user: { lat: null } }) });
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.equal(body.data.weather_user.lat, null);
+    assert.equal(body.data.weather_user.lon, '13.41');
+  } finally { await close(); }
+});
+
+test('PUT /preferences rejects invalid weather_user lat', async () => {
+  currentRole = 'member';
+  const { baseUrl, close } = await startApp();
+  try {
+    const res = await fetch(`${baseUrl}/`, { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ weather_user: { lat: '999' } }) });
+    assert.equal(res.status, 400);
+  } finally { await close(); }
+});
+
+test('PUT /preferences rejects non-boolean weather_user.auto_locate', async () => {
+  currentRole = 'member';
+  const { baseUrl, close } = await startApp();
+  try {
+    const res = await fetch(`${baseUrl}/`, { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ weather_user: { auto_locate: 'yes' } }) });
+    assert.equal(res.status, 400);
+  } finally { await close(); }
+});
+
+test('weather_user is isolated per authUserId', async () => {
+  // User 1 (startApp setzt authUserId=1) speichert Berlin.
+  currentRole = 'member';
+  const { baseUrl, close } = await startApp();
+  try {
+    await fetch(`${baseUrl}/`, { method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ weather_user: { lat: '52.52' } }) });
+    const body = await (await fetch(`${baseUrl}/`)).json();
+    assert.equal(body.data.weather_user.lat, '52.52');
+  } finally { await close(); }
+});
