@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Feature Request / Idea
+    url: https://github.com/ulsklyc/oikos/discussions/new?category=ideas
+    about: Share and discuss feature ideas in Discussions. Issues are reserved for bugs and work that's already committed to.
