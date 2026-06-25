@@ -58,17 +58,17 @@ are restricted to public network addresses.
 
 ## Localization
 
-The wizard is fully localized into all 19 languages supported by the app and
+The wizard is fully localized into all 20 languages supported by the app and
 detects the browser language automatically (`de` is the reference locale, `en`
 the fallback). Translations live in `tools/installer/locales/*.json` and are
 loaded by `i18n-mini.js`, which mirrors the app's locale resolution.
 
 The **CLI installer** (`install.sh` at the repo root) is localized into the same
-19 languages. It detects the language from the shell environment
+20 languages. It detects the language from the shell environment
 (`OIKOS_INSTALLER_LANG` > `LC_ALL` > `LC_MESSAGES` > `LANG`) and accepts a
 `--lang <code>` override. Its strings live in `tools/installer/locales/cli/<lang>.sh`
 — one sourced shell file per language that sets `MSG_*` variables; `en.sh` is the
-fallback base, the active language overlays it. Key parity across all 18 files is
+fallback base, the active language overlays it. Key parity across all 19 files is
 enforced by `test-installer-cli-i18n.js`.
 
 ## Design
