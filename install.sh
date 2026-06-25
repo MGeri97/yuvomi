@@ -23,7 +23,7 @@ ask()     { printf "%s%s%s " "$BOLD" "$*" "$RESET"; }
 # der Umgebung (OIKOS_INSTALLER_LANG > LC_ALL > LC_MESSAGES > LANG), analog der App.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CLI_LOCALES_DIR="$SCRIPT_DIR/tools/installer/locales/cli"
-SUPPORTED_LOCALES=(de en es fr it sv el ru tr zh ja ar hi pt uk pl nl cs vi)
+SUPPORTED_LOCALES=(de en es fr it sv el ru tr zh ja ar hi pt uk pl nl cs vi hu)
 FALLBACK_LOCALE=en
 ACTIVE_LOCALE=$FALLBACK_LOCALE
 

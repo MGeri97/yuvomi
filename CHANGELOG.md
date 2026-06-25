@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Hungarian locale**: full Hungarian (`hu`) translation added, covering all UI strings across all modules (tasks, calendar, shopping, meals, budget, notes, contacts, birthdays, recipes, documents, housekeeping, settings, and more). Hungarian is now selectable in Settings → Language. The web installer wizard and CLI installer are localized as well.
+
 ## [0.75.2] - 2026-06-20
 
 ### Changed

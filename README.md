@@ -46,7 +46,7 @@
     <tr>
       <td align="center"><b>14</b><br><sub>modules</sub></td>
       <td align="center"><sub>·</sub></td>
-      <td align="center"><b>19</b><br><sub>languages</sub></td>
+      <td align="center"><b>20</b><br><sub>languages</sub></td>
       <td align="center"><sub>·</sub></td>
       <td align="center"><b>0</b><br><sub>trackers</sub></td>
       <td align="center"><sub>·</sub></td>
@@ -188,7 +188,7 @@ Each module is independent. Use what fits, skip what doesn't.
 - **SSO / OpenID Connect** — optional single sign-on via any OIDC provider (Authentik, Keycloak, Google, Microsoft Entra) configured with four env vars; Authorization Code + PKCE flow
 - **Self-service password reset** — optional SMTP email lets users reset a forgotten password themselves via a time-limited emailed link; anti-enumeration by design
 - **Zero build step** — pure ES modules, no bundler, no transpiler, no framework
-- **Multilingual** — 19 languages with automatic locale detection (de, en, es, fr, it, sv, el, ru, tr, zh, ja, ar, hi, pt, uk, pl, nl, cs, vi)
+- **Multilingual** — 20 languages with automatic locale detection (de, en, es, fr, it, sv, el, ru, tr, zh, ja, ar, hi, pt, uk, pl, nl, cs, vi, hu)
 
 ---
 
@@ -196,7 +196,7 @@ Each module is independent. Use what fits, skip what doesn't.
 
 ### Web installer (recommended)
 
-A localized setup wizard — 18 languages — that runs in your browser. Auto-detects Docker or Podman, configures HTTPS, SSO, and scheduled backups, then starts the container and creates your admin account.
+A localized setup wizard — 19 languages — that runs in your browser. Auto-detects Docker or Podman, configures HTTPS, SSO, and scheduled backups, then starts the container and creates your admin account.
 
 ```bash
 git clone https://github.com/ulsklyc/yuvomi.git && cd yuvomi
